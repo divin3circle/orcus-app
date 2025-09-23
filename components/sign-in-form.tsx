@@ -87,7 +87,7 @@ export function SignInForm() {
             <CustomText text="Don't have an account? " className="text-center text-sm" />
             <Pressable
               onPress={() => {
-                router.push('/create-account');
+                router.dismissTo('/create-account');
               }}>
               <CustomText text="Sign up" className="text-sm underline underline-offset-4" />
             </Pressable>

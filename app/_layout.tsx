@@ -9,9 +9,9 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'nativewind';
 import { useEffect } from 'react';
-import { isLoggedIn } from '@/hooks/useAuth';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useReactQueryDevTools } from '@dev-plugins/react-query';
+import { useAuthStore } from '@/utils/authStore';
 
 const queryClient = new QueryClient({});
 
@@ -29,6 +29,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const { colorScheme } = useColorScheme();
+  const { isOnboardingComplete, isLoggedIn } = useAuthStore();
 
   useReactQueryDevTools(queryClient);
 
@@ -54,9 +55,12 @@ export default function RootLayout() {
           <Stack.Protected guard={isLoggedIn}>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           </Stack.Protected>
-          <Stack.Protected guard={!isLoggedIn}>
+          <Stack.Protected guard={!isLoggedIn && isOnboardingComplete}>
             <Stack.Screen name="sign-in" options={{ headerShown: false }} />
             <Stack.Screen name="create-account" options={{ headerShown: false }} />
+          </Stack.Protected>
+          <Stack.Protected guard={!isOnboardingComplete}>
+            <Stack.Screen name="onboarding" options={{ headerShown: false }} />
           </Stack.Protected>
         </Stack>
         <PortalHost />
