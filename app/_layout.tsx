@@ -10,6 +10,10 @@ import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'nativewind';
 import { useEffect } from 'react';
 import { isLoggedIn } from '@/hooks/useAuth';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useReactQueryDevTools } from '@dev-plugins/react-query';
+
+const queryClient = new QueryClient({});
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -26,6 +30,8 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const { colorScheme } = useColorScheme();
 
+  useReactQueryDevTools(queryClient);
+
   const [loaded] = useFonts({
     Montserrat: require('../assets/fonts/Montserrat-VariableFont_wght.ttf'),
   });
@@ -41,18 +47,20 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={NAV_THEME[colorScheme ?? 'light']}>
-      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-      <Stack>
-        <Stack.Protected guard={isLoggedIn}>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        </Stack.Protected>
-        <Stack.Protected guard={!isLoggedIn}>
-          <Stack.Screen name="sign-in" options={{ headerShown: false }} />
-          <Stack.Screen name="create-account" options={{ headerShown: false }} />
-        </Stack.Protected>
-      </Stack>
-      <PortalHost />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider value={NAV_THEME[colorScheme ?? 'light']}>
+        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+        <Stack>
+          <Stack.Protected guard={isLoggedIn}>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack.Protected>
+          <Stack.Protected guard={!isLoggedIn}>
+            <Stack.Screen name="sign-in" options={{ headerShown: false }} />
+            <Stack.Screen name="create-account" options={{ headerShown: false }} />
+          </Stack.Protected>
+        </Stack>
+        <PortalHost />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
