@@ -35,7 +35,7 @@ const IMAGE_STYLE: ImageStyle = {
   width: 76,
 };
 
-export default function Screen() {
+export default function OfflineScreen() {
   const { colorScheme } = useColorScheme();
 
   return (
