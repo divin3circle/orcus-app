@@ -4,6 +4,7 @@ import { THEME } from '@/lib/theme';
 import { useColorScheme } from 'nativewind';
 import CustomText from '../ui/CustomText';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { router } from 'expo-router';
 
 type ExpoIoniconsName = keyof typeof Ionicons.glyphMap;
 
@@ -17,7 +18,9 @@ const balanceActions = [
   {
     title: 'Pay',
     icon: 'arrow-up-outline',
-    action: () => {},
+    action: () => {
+      router.push('/(modals)/scan');
+    },
   },
   {
     title: 'Send',

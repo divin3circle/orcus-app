@@ -32,8 +32,11 @@ const TransactionCard = ({ transaction }: { transaction: Transaction }) => {
         </View>
       </View>
       <View className="flex items-end">
-        <CustomText text={`-$${transaction.amount}`} className="font-semibold text-red-500" />
-        <CustomText text={transaction.status} className="text-xs text-muted-foreground" />
+        <CustomText text={`-KES ${transaction.amount}`} className="font-semibold text-red-500" />
+        <CustomText
+          text={`KES ${transaction.fee.toString()}`}
+          className="text-xs text-muted-foreground"
+        />
       </View>
     </View>
   );
