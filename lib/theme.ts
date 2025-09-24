@@ -1,10 +1,10 @@
 import { DarkTheme, DefaultTheme, type Theme } from '@react-navigation/native';
- 
+
 export const THEME = {
   light: {
     background: 'hsl(0 0% 100%)',
     foreground: 'hsl(0 0% 3.9%)',
-    card: 'hsl(0 0% 100%)',
+    card: 'hsl(200, 20%, 95%)',
     cardForeground: 'hsl(0 0% 3.9%)',
     popover: 'hsl(0 0% 100%)',
     popoverForeground: 'hsl(0 0% 3.9%)',
@@ -30,7 +30,7 @@ export const THEME = {
   dark: {
     background: 'hsl(0 0% 3.9%)',
     foreground: 'hsl(0 0% 98%)',
-    card: 'hsl(0 0% 3.9%)',
+    card: 'hsl(228, 28%, 20%)',
     cardForeground: 'hsl(0 0% 98%)',
     popover: 'hsl(0 0% 3.9%)',
     popoverForeground: 'hsl(0 0% 98%)',
@@ -54,7 +54,7 @@ export const THEME = {
     chart5: 'hsl(340 75% 55%)',
   },
 };
- 
+
 export const NAV_THEME: Record<'light' | 'dark', Theme> = {
   light: {
     ...DefaultTheme,

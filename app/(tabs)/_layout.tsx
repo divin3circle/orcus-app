@@ -1,12 +1,13 @@
+import CustomNavbar from '@/components/home/CustomNavbar';
 import { Tabs } from 'expo-router';
 
 export default function TabsLayout() {
   return (
-    <Tabs>
-      <Tabs.Screen name="index" options={{ title: 'Home' }} />
-      <Tabs.Screen name="offline" options={{ title: 'Offline' }} />
-      <Tabs.Screen name="transactions" options={{ title: 'Transactions' }} />
-      <Tabs.Screen name="profile" options={{ title: 'Profile' }} />
+    <Tabs tabBar={(props) => <CustomNavbar {...props} />}>
+      <Tabs.Screen name="index" options={{ title: 'Home', headerShown: false }} />
+      <Tabs.Screen name="offline" options={{ title: 'Offline', headerShown: false }} />
+      <Tabs.Screen name="transactions" options={{ title: 'Transactions', headerShown: false }} />
+      <Tabs.Screen name="profile" options={{ title: 'Profile', headerShown: false }} />
     </Tabs>
   );
 }

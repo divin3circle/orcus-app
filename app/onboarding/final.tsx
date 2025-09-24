@@ -1,12 +1,4 @@
-import {
-  Button,
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import { Pressable, SafeAreaView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import React from 'react';
 import { router } from 'expo-router';
 import Lottie from 'lottie-react-native';

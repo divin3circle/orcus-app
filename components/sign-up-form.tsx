@@ -2,16 +2,17 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Text } from '@/components/ui/text';
 import * as React from 'react';
 import { Pressable, type TextInput, View } from 'react-native';
 import TitleText from './ui/title';
 import CustomText from './ui/CustomText';
 import { Link, useRouter } from 'expo-router';
+import { useAuthStore } from '@/utils/authStore';
 
 export function SignUpForm() {
   const passwordInputRef = React.useRef<TextInput>(null);
   const router = useRouter();
+  const { logIn } = useAuthStore();
 
   function onUsernameSubmitEditing() {
     passwordInputRef.current?.focus();
@@ -19,6 +20,8 @@ export function SignUpForm() {
 
   function onSubmit() {
     // TODO: Submit form and navigate to protected screen if successful
+    console.warn('Submit form and navigate to protected screen if successful');
+    logIn();
   }
 
   return (
