@@ -1,5 +1,6 @@
 import { Shop } from '@/hooks/useShops';
 import { Transaction } from '@/hooks/useTransactions';
+import { NotificationType } from '@/hooks/useNotifications';
 import mock1 from '@/assets/images/icon.png';
 import mock2 from '@/assets/images/logo.png';
 
@@ -70,5 +71,32 @@ export const mockTransactions: Transaction[] = [
     status: 'failed',
     created_at: '2024-01-21T11:15:00Z',
     updated_at: '2024-01-21T11:15:00Z',
+  },
+];
+
+export const mockNotifications: NotificationType[] = [
+  {
+    title: 'Payment Successful',
+    date: '2024-01-15T08:30:00Z',
+    amount: 4.5,
+    type: 'debit',
+  },
+  {
+    title: 'Token Purchase',
+    date: '2024-01-21T11:15:00Z',
+    amount: 89.5,
+    type: 'credit',
+  },
+  {
+    title: 'Payment Pending',
+    date: '2024-01-16T14:20:00Z',
+    amount: 6.75,
+    type: 'debit',
+  },
+  {
+    title: 'Large Purchase Alert',
+    date: '2024-01-20T16:45:00Z',
+    amount: 299.99,
+    type: 'debit',
   },
 ];
