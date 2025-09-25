@@ -31,7 +31,9 @@ const balanceActions = [
   {
     title: 'Buy',
     icon: 'arrow-down-outline',
-    action: () => {},
+    action: () => {
+      router.push('/(modals)/buy');
+    },
   },
 ];
 

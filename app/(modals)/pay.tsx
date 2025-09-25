@@ -1,25 +1,64 @@
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
-import React from 'react';
+import { Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useState } from 'react';
 import CustomText from '@/components/ui/CustomText';
+import CustomKeyboards from '@/components/ui/custom-keyboard';
 
 const Pay = () => {
+  const [amount, setAmount] = useState('0');
+  const [paymentId, setPaymentId] = useState('');
+
+  const handleKeyPress = (key: string) => {
+    if (key === 'Ksh') return; // Handle currency toggle if needed
+
+    if (amount === '0' && key !== '.') {
+      setAmount(key);
+    } else {
+      setAmount((prev) => prev + key);
+    }
+  };
+
+  const handleClear = () => {
+    setAmount('0');
+  };
+
+  const handleBackspace = () => {
+    if (amount.length > 1) {
+      setAmount((prev) => prev.slice(0, -1));
+    } else {
+      setAmount('0');
+    }
+  };
+
+  const handleQuickAmount = (quickAmount: string) => {
+    setAmount(quickAmount);
+  };
+
+  const handleConfirm = () => {
+    console.log('Confirming payment:', amount);
+  };
+
   return (
-    <View className="p-4">
-      <View className="">
+    <View className="">
+      <View className="p-4">
         <CustomText text="Pay Merchant" className="text-lg font-semibold" />
       </View>
       <View className="">
-        <View className="mt-4 flex flex-row items-center gap-2">
+        <View className="flex flex-row items-center gap-2 p-4">
           <TextInput
             placeholder="Paste Shop Payment ID"
+            value={paymentId}
+            onChangeText={setPaymentId}
             className="h-12 flex-1 border-b border-foreground/30 text-lg font-semibold text-foreground/60"
             style={{
               fontFamily: 'Montserrat',
             }}
           />
         </View>
-        <View className="mt-14 flex flex-row items-center gap-4">
-          <Image source={require('@/assets/images/ksh.png')} className="h-16 w-16 rounded-full" />
+        <View className="mt-2 flex flex-row items-center gap-2 p-4">
+          <Image
+            source={require('@/assets/images/ksh.png')}
+            className="h-14 w-14 rounded-full border border-foreground/50"
+          />
           <View className="">
             <Text
               className="text-sm font-semibold text-foreground/50"
@@ -28,10 +67,10 @@ const Pay = () => {
               }}>
               Current Balance
             </Text>
-            <CustomText text="KES 0.00" className="mt-1 text-lg font-semibold" />
+            <CustomText text="KES 0.00" className="text-lg font-semibold" />
           </View>
         </View>
-        <View className="mt-14">
+        <View className="mt-1 p-4">
           <Text
             className="text-sm font-bold text-foreground/50"
             style={{
@@ -49,14 +88,40 @@ const Pay = () => {
             </Text>
             <TextInput
               placeholder="0.00"
-              className="text-4xl font-semibold text-foreground"
+              value={amount}
+              editable={false}
+              showSoftInputOnFocus={false}
+              className="mt-[0.5px] text-4xl font-semibold text-foreground"
               style={{
                 fontFamily: 'Montserrat',
               }}
             />
           </View>
         </View>
+        <View className="mt-1 flex flex-row items-center justify-between gap-2 px-2">
+          <Pressable
+            className="flex w-[30%] items-center justify-center rounded-xl bg-input/30 px-4 py-2"
+            onPress={() => handleQuickAmount('10')}>
+            <CustomText text="KES 10" className="text-sm font-semibold" />
+          </Pressable>
+          <Pressable
+            className="flex w-[30%] items-center justify-center rounded-xl bg-input/30 px-4 py-2"
+            onPress={() => handleQuickAmount('100')}>
+            <CustomText text="KES 100" className="text-sm font-semibold" />
+          </Pressable>
+          <Pressable
+            className="flex w-[30%] items-center justify-center rounded-xl bg-input/30 px-4 py-2"
+            onPress={() => handleQuickAmount('500')}>
+            <CustomText text="KES 500" className="text-sm font-semibold" />
+          </Pressable>
+        </View>
       </View>
+      <CustomKeyboards
+        onKeyPress={handleKeyPress}
+        onClear={handleClear}
+        onBackspace={handleBackspace}
+        onConfirm={handleConfirm}
+      />
     </View>
   );
 };
