@@ -16,14 +16,14 @@ const LOGO = {
 
 const SCREEN_OPTIONS = {
   light: {
-    title: 'Offline',
+    title: 'AI Agent',
     headerTransparent: true,
     headerShadowVisible: true,
     headerStyle: { backgroundColor: THEME.light.background },
     headerRight: () => <ThemeToggle />,
   },
   dark: {
-    title: 'Offline',
+    title: 'AI Agent',
     headerTransparent: true,
     headerShadowVisible: true,
     headerStyle: { backgroundColor: THEME.dark.background },
@@ -43,7 +43,7 @@ export default function OfflineScreen() {
     <>
       <Stack.Screen options={SCREEN_OPTIONS[colorScheme ?? 'light']} />
       <View className="flex-1 items-center justify-center gap-8 p-4">
-        <CustomText text="Offline" />
+        <CustomText text="AI Agents" />
       </View>
     </>
   );

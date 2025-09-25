@@ -65,8 +65,8 @@ const CustomNavBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
     switch (routeName) {
       case 'index':
         return <Feather name="home" size={18} color={color} />;
-      case 'offline':
-        return <Ionicons name="cloud-offline-outline" size={18} color={color} />;
+      case 'agents':
+        return <Ionicons name="hardware-chip-outline" size={18} color={color} />;
       case 'transactions':
         return <Ionicons name="receipt-outline" size={18} color={color} />;
       case 'profile':

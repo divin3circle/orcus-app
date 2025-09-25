@@ -28,7 +28,7 @@ const HomeHeader = () => {
             router.push('/(modals)/scan');
           }}>
           <Ionicons
-            name="scan-outline"
+            name="qr-code-outline"
             size={24}
             color={colorScheme === 'light' ? 'black' : 'white'}
           />
