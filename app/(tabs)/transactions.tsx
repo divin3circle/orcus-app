@@ -43,8 +43,8 @@ export default function TransactionsScreen() {
     <SafeAreaView className="flex-1">
       <ScrollView>
         <Stack.Screen options={SCREEN_OPTIONS[colorScheme ?? 'light']} />
-        <View className="mx-4">
-          <View className="">
+        <View className="">
+          <View className="mx-4">
             <CustomText text="Total Expenses" className="text-base text-muted-foreground" />
             <CustomText text="KES 736.87" className="text-2xl font-semibold" />
             <CustomText
