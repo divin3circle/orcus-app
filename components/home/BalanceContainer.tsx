@@ -38,11 +38,7 @@ const balanceActions = [
 const BalanceContainer = () => {
   const { colorScheme } = useColorScheme();
   return (
-    <View
-      className="mt-4 flex items-center justify-between rounded-2xl border border-border p-4"
-      style={{
-        backgroundColor: colorScheme === 'light' ? '#f4eeee' : '#3f44448',
-      }}>
+    <View className="mt-4 flex items-center justify-between rounded-2xl border border-border bg-input/30 p-4">
       <View className="mt-21 mt-2 flex w-full flex-col items-center justify-end">
         <CustomText text="Total Balance" className="mb-1 text-muted-foreground" />
         <View className="flex flex-row items-center justify-center gap-2">
