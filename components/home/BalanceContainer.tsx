@@ -19,7 +19,7 @@ const balanceActions = [
     title: 'Pay',
     icon: 'arrow-up-outline',
     action: () => {
-      router.push('/(modals)/scan');
+      router.push('/(modals)/pay');
     },
   },
   {

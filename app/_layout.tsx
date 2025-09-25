@@ -62,6 +62,10 @@ export default function RootLayout() {
               name="(modals)/scan"
               options={{ headerShown: false, presentation: 'modal' }}
             />
+            <Stack.Screen
+              name="(modals)/pay"
+              options={{ headerShown: false, presentation: 'modal' }}
+            />
           </Stack.Protected>
           <Stack.Protected guard={!isLoggedIn && isOnboardingComplete}>
             <Stack.Screen name="sign-in" options={{ headerShown: false }} />

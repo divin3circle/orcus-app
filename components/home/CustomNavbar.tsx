@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
     color: PRIMARY_COLOR,
     marginLeft: 8,
     fontWeight: '500',
+    fontFamily: 'Montserrat',
   },
 });
 
