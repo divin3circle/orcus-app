@@ -4,8 +4,10 @@ import CustomText from '../ui/CustomText';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from 'expo-router';
+import { useColorScheme } from 'nativewind';
 
 const HomeHeader = () => {
+  const { colorScheme } = useColorScheme();
   return (
     <View className="flex flex-row items-center justify-between">
       <View className="flex flex-row items-center gap-2">
@@ -25,13 +27,21 @@ const HomeHeader = () => {
           onPress={() => {
             router.push('/(modals)/scan');
           }}>
-          <Ionicons name="scan-outline" size={24} color="black" />
+          <Ionicons
+            name="scan-outline"
+            size={24}
+            color={colorScheme === 'light' ? 'black' : 'white'}
+          />
         </Pressable>
         <Pressable
           onPress={() => {
             router.push('/(modals)/notifications');
           }}>
-          <Ionicons name="notifications-outline" size={24} color="black" />
+          <Ionicons
+            name="notifications-outline"
+            size={24}
+            color={colorScheme === 'light' ? 'black' : 'white'}
+          />
         </Pressable>
       </View>
     </View>

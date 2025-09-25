@@ -13,6 +13,12 @@ const Favorites = () => {
           <FavoriteShopCard key={shop.id} shop={shop} />
         ))}
       </View>
+      {mockShops.length === 0 && (
+        <CustomText
+          text="No favorites yet"
+          className="my-4 text-center text-sm text-muted-foreground"
+        />
+      )}
     </View>
   );
 };

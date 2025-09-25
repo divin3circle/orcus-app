@@ -1,18 +1,15 @@
 import { Button } from '@/components/ui/button';
 import CustomText from '@/components/ui/CustomText';
 import { Icon } from '@/components/ui/icon';
-import { Text } from '@/components/ui/text';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { THEME } from '@/lib/theme';
-import { Link, Stack } from 'expo-router';
-import { MoonStarIcon, StarIcon, SunIcon } from 'lucide-react-native';
+import { Stack } from 'expo-router';
+import { MoonStarIcon, SunIcon } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import * as React from 'react';
-import { Image, type ImageStyle, View } from 'react-native';
-
-const LOGO = {
-  light: require('@/assets/images/react-native-reusables-light.png'),
-  dark: require('@/assets/images/react-native-reusables-dark.png'),
-};
+import { Image, type ImageStyle, SafeAreaView, ScrollView, View } from 'react-native';
+import PersonalInformation from '@/components/profile/PersonalInformation';
+import Settings from '@/components/profile/Settings';
 
 const SCREEN_OPTIONS = {
   light: {
@@ -40,12 +37,29 @@ export default function ProfileScreen() {
   const { colorScheme } = useColorScheme();
 
   return (
-    <>
-      <Stack.Screen options={SCREEN_OPTIONS[colorScheme ?? 'light']} />
-      <View className="flex-1 items-center justify-center gap-8 p-4">
-        <CustomText text="Profile" />
-      </View>
-    </>
+    <SafeAreaView className="flex-1">
+      <ScrollView>
+        <Stack.Screen options={SCREEN_OPTIONS[colorScheme ?? 'light']} />
+        <View className="items-center justify-center gap-8 p-4">
+          <CustomText text="Profile" className="text-lg font-semibold" />
+          <View className="relative h-40 w-40 rounded-full border border-foreground/50">
+            <Image
+              source={require('@/assets/images/profile.jpeg')}
+              className="h-full w-full rounded-full"
+            />
+            <View className="absolute bottom-0 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-foreground p-1">
+              <Ionicons
+                name="camera-outline"
+                size={24}
+                color={colorScheme !== 'light' ? 'black' : 'white'}
+              />
+            </View>
+          </View>
+        </View>
+        <PersonalInformation />
+        <Settings />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 

@@ -48,7 +48,11 @@ const BalanceContainer = () => {
         <View className="flex flex-row items-center justify-center gap-2">
           <CustomText text="$0.00" className="text-4xl font-semibold" />
           <Pressable>
-            <Ionicons name="eye-outline" size={12} color="black" />
+            <Ionicons
+              name="eye-outline"
+              size={12}
+              color={colorScheme === 'light' ? 'black' : 'white'}
+            />
           </Pressable>
         </View>
       </View>
@@ -58,7 +62,11 @@ const BalanceContainer = () => {
             key={action.title}
             onPress={action.action}
             className="flex w-[30%] items-center justify-center gap-1 rounded-xl border border-foreground/30 p-4">
-            <Ionicons name={action.icon as ExpoIoniconsName} size={24} color="black" />
+            <Ionicons
+              name={action.icon as ExpoIoniconsName}
+              size={24}
+              color={colorScheme === 'light' ? 'black' : 'white'}
+            />
             <CustomText text={action.title} className="text-sm" />
           </Pressable>
         ))}
