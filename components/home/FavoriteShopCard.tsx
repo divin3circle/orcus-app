@@ -1,4 +1,4 @@
-import { StyleSheet, ImageBackground, View, Image, Pressable } from 'react-native';
+import { StyleSheet, ImageBackground, View, Image, Pressable, Text } from 'react-native';
 import React from 'react';
 import { Shop } from '@/hooks/useShops';
 import CustomText from '../ui/CustomText';
@@ -19,7 +19,13 @@ const FavoriteShopCard = ({ shop }: { shop: Shop }) => {
       <View className="flex flex-row items-center gap-1">
         <Pressable className="flex flex-row items-center gap-1">
           <Ionicons name="arrow-up-outline" size={16} color="white" />
-          <CustomText text="Pay" className="text-sm font-semibold text-white" />
+          <Text
+            className="text-sm font-semibold text-white"
+            style={{
+              fontFamily: 'Montserrat',
+            }}>
+            Pay
+          </Text>
         </Pressable>
       </View>
     </ImageBackground>

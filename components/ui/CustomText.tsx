@@ -2,7 +2,15 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { useColorScheme } from 'nativewind';
 
-const CustomText = ({ text, className }: { text: string; className?: string }) => {
+const CustomText = ({
+  text,
+  className,
+  overwriteColor,
+}: {
+  text: string;
+  className?: string;
+  overwriteColor?: boolean;
+}) => {
   const { colorScheme } = useColorScheme();
   return (
     <View style={styles.container}>
