@@ -5,9 +5,17 @@ import CustomText from '../ui/CustomText';
 import red from '@/assets/images/small-red.png';
 import blue from '@/assets/images/small-blue.png';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useAuthStore } from '@/utils/authStore';
+import { router } from 'expo-router';
 
 const FavoriteShopCard = ({ shop }: { shop: Shop }) => {
   const bgImage = shop.theme === 'red' ? red : blue;
+  const { setPaymentID } = useAuthStore();
+
+  const handlePay = () => {
+    setPaymentID(shop.payment_id);
+    router.push('/(modals)/pay');
+  };
   return (
     <ImageBackground
       source={bgImage}
@@ -23,7 +31,7 @@ const FavoriteShopCard = ({ shop }: { shop: Shop }) => {
       </View>
       <Image className="h-10 w-10 rounded-full" source={shop.profile_image_url} />
       <View className="flex flex-row items-center gap-1">
-        <Pressable className="flex flex-row items-center gap-1">
+        <Pressable className="flex flex-row items-center gap-1" onPress={handlePay}>
           <Ionicons name="arrow-up-outline" size={16} color="white" />
           <Text
             className="text-sm font-semibold text-white"

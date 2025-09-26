@@ -1,11 +1,17 @@
 import { Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomText from '@/components/ui/CustomText';
 import CustomKeyboards from '@/components/ui/custom-keyboard';
+import { useAuthStore } from '@/utils/authStore';
 
 const Pay = () => {
+  const { paymentID } = useAuthStore();
   const [amount, setAmount] = useState('0');
   const [paymentId, setPaymentId] = useState('');
+
+  useEffect(() => {
+    setPaymentId(paymentID);
+  }, [paymentID]);
 
   const handleKeyPress = (key: string) => {
     if (key === 'Ksh') return; // Handle currency toggle if needed
@@ -80,7 +86,7 @@ const Pay = () => {
           </Text>
           <View className="mt-4 flex flex-row items-center gap-1">
             <Text
-              className="text-4xl font-semibold text-[#d3f562]"
+              className="text-4xl font-semibold text-blue-500"
               style={{
                 fontFamily: 'Montserrat',
               }}>
@@ -100,17 +106,17 @@ const Pay = () => {
         </View>
         <View className="mt-1 flex flex-row items-center justify-between gap-2 px-2">
           <Pressable
-            className="flex w-[30%] items-center justify-center rounded-xl bg-input/30 px-4 py-2"
+            className="flex w-[30%] items-center justify-center rounded-xl border border-foreground/50 bg-input/30 px-4 py-2"
             onPress={() => handleQuickAmount('10')}>
             <CustomText text="KES 10" className="text-sm font-semibold" />
           </Pressable>
           <Pressable
-            className="flex w-[30%] items-center justify-center rounded-xl bg-input/30 px-4 py-2"
+            className="flex w-[30%] items-center justify-center rounded-xl border border-foreground/50 bg-input/30 px-4 py-2"
             onPress={() => handleQuickAmount('100')}>
             <CustomText text="KES 100" className="text-sm font-semibold" />
           </Pressable>
           <Pressable
-            className="flex w-[30%] items-center justify-center rounded-xl bg-input/30 px-4 py-2"
+            className="flex w-[30%] items-center justify-center rounded-xl border border-foreground/50 bg-input/30 px-4 py-2"
             onPress={() => handleQuickAmount('500')}>
             <CustomText text="KES 500" className="text-sm font-semibold" />
           </Pressable>

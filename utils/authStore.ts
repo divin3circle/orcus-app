@@ -16,6 +16,8 @@ export interface User {
   isOnboardingComplete: boolean;
   completeOnboarding: () => void;
   resetOnboarding: () => void;
+  paymentID: string;
+  setPaymentID: (paymentID: string) => void;
 }
 
 export const useAuthStore = create(
@@ -29,6 +31,15 @@ export const useAuthStore = create(
       createdAt: '',
       updatedAt: '',
       isOnboardingComplete: false,
+      paymentID: '',
+      setPaymentID: (paymentID: string) => {
+        set((state) => {
+          return {
+            ...state,
+            paymentID: paymentID,
+          };
+        });
+      },
       completeOnboarding: () => {
         set((state) => {
           return {
