@@ -46,7 +46,7 @@ const BalanceContainer = () => {
       <View className="mt-21 mt-2 flex w-full flex-col items-center justify-end">
         <CustomText text="Total Balance" className="mb-1 text-muted-foreground" />
         <View className="flex flex-row items-center justify-center gap-2">
-          <CustomText text="$0.00" className="text-4xl font-semibold" />
+          <CustomText text="KSH 0.00" className="text-3xl font-semibold" />
           <Pressable>
             <Ionicons
               name="eye-outline"

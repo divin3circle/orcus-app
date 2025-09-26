@@ -1,8 +1,13 @@
 import { Shop } from '@/hooks/useShops';
 import { Transaction } from '@/hooks/useTransactions';
 import { NotificationType } from '@/hooks/useNotifications';
+import { Campaign } from '@/hooks/useCampaigns';
 import mock1 from '@/assets/images/icon.png';
 import mock2 from '@/assets/images/logo.png';
+import campaignProfile1 from '@/assets/images/camapaign-profile1.png';
+import campaignBanner1 from '@/assets/images/campaibn-banner1.jpg';
+import campaignBanner2 from '@/assets/images/campaign-banner2.jpg';
+import campaignProfile2 from '@/assets/images/campaign-profile2.png';
 
 export const mockShops: Shop[] = [
   {
@@ -98,5 +103,32 @@ export const mockNotifications: NotificationType[] = [
     date: '2024-01-20T16:45:00Z',
     amount: 299.99,
     type: 'debit',
+  },
+];
+
+export const mockCampaigns: Campaign[] = [
+  {
+    id: 'campaign-1',
+    shop_id: 'shop-1',
+    name: 'Coffee Lovers Rewards',
+    token_id: '0.0.55419',
+    description: 'Earn tokens with every coffee purchase and unlock exclusive rewards!',
+    target_tokens: 10000,
+    distributed: 7500,
+    icon: campaignProfile1,
+    banner_image_url: campaignBanner1,
+    ended: 0,
+  },
+  {
+    id: 'campaign-2',
+    shop_id: 'shop-2',
+    name: 'Tech Innovation Drive',
+    token_id: '0.0.45896',
+    description: 'Support tech innovation and get rewarded with exclusive tech tokens.',
+    target_tokens: 25000,
+    distributed: 18200,
+    icon: campaignProfile2,
+    banner_image_url: campaignBanner2,
+    ended: 0,
   },
 ];

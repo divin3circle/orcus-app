@@ -1,0 +1,45 @@
+import { StyleSheet, Image, Text, View } from 'react-native';
+import React from 'react';
+import { Campaign } from '@/hooks/useCampaigns';
+import CustomText from '../ui/CustomText';
+
+const CampaignCard = ({ campaign }: { campaign: Campaign }) => {
+  return (
+    <View className="w-full rounded-xl border border-foreground/20 bg-input/30 p-4">
+      <View className="flex flex-row items-start gap-2">
+        <Image
+          source={campaign.icon}
+          className="h-12 w-12 rounded-xl border-[1px] border-foreground/30"
+        />
+        <View className="">
+          <CustomText text={campaign.name} className="text-base font-semibold" />
+          <Text className="text-xs text-foreground/50">{campaign.token_id}</Text>
+        </View>
+      </View>
+      <View className="mt-2 flex flex-row items-center justify-around">
+        <View className="">
+          <CustomText text="10.5" className="text-sm font-semibold" />
+          <CustomText text="My Balance" className="text-xs text-foreground/50" />
+        </View>
+        <View className="">
+          <CustomText
+            text={campaign.distributed.toLocaleString()}
+            className="text-base font-semibold"
+          />
+          <CustomText text="Distributed" className="text-xs text-foreground/50" />
+        </View>
+        <View className="">
+          <CustomText
+            text={campaign.target_tokens.toLocaleString()}
+            className="text-base font-semibold"
+          />
+          <CustomText text="Balance" className="text-xs text-foreground/50" />
+        </View>
+      </View>
+    </View>
+  );
+};
+
+export default CampaignCard;
+
+const styles = StyleSheet.create({});

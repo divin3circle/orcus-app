@@ -10,6 +10,7 @@ import * as React from 'react';
 import { ScrollView, type ImageStyle, SafeAreaView, View } from 'react-native';
 import Favorites from '@/components/home/Favorites';
 import RecentTransactions from '@/components/home/RecentTransactions';
+import Campaigns from '@/components/home/Campaigns';
 
 const LOGO = {
   light: require('@/assets/images/react-native-reusables-light.png'),
@@ -49,6 +50,7 @@ export default function HomeScreen() {
           <HomeHeader />
           <BalanceContainer />
           <Favorites />
+          <Campaigns />
           <RecentTransactions />
         </View>
       </ScrollView>

@@ -7,7 +7,7 @@ import { router } from 'expo-router';
 
 const RecentTransactions = () => {
   return (
-    <View className="mt-4 pb-16">
+    <View className="mt-8 pb-16">
       <View className="flex flex-row items-center justify-between">
         <CustomText text="Recent Transactions" className="text-lg font-semibold" />
         <Pressable
@@ -16,7 +16,7 @@ const RecentTransactions = () => {
           <CustomText text="View All" className="text-xs" />
         </Pressable>
       </View>
-      <View className="mt-2">
+      <View className="">
         {mockTransactions.slice(0, 3).map((transaction) => (
           <TransactionCard key={transaction.id} transaction={transaction} />
         ))}
