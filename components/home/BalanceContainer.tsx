@@ -25,7 +25,9 @@ const balanceActions = [
   {
     title: 'Send',
     icon: 'send-outline',
-    action: () => {},
+    action: () => {
+      router.push('/(modals)/send');
+    },
   },
 
   {
