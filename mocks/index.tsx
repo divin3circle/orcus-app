@@ -114,7 +114,7 @@ export const mockCampaigns: Campaign[] = [
     token_id: '0.0.55419',
     description: 'Earn tokens with every coffee purchase and unlock exclusive rewards!',
     target_tokens: 10000,
-    distributed: 7500,
+    distributed: 500,
     icon: campaignProfile1,
     banner_image_url: campaignBanner1,
     ended: 0,

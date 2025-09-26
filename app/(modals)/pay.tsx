@@ -107,7 +107,13 @@ const Pay = () => {
           </View>
           <View className="mt-8 flex flex-row items-center justify-between">
             <Pressable className="flex w-[45%] flex-row items-center justify-center gap-2 rounded-xl bg-blue-500 p-4">
-              <CustomText text="Join Campaign" />
+              <Text
+                className="text-sm font-semibold text-background"
+                style={{
+                  fontFamily: 'Montserrat',
+                }}>
+                Join Campaign
+              </Text>
             </Pressable>
             <Pressable className="flex w-[45%] flex-row items-center justify-center gap-2 rounded-xl bg-foreground p-4">
               <Text

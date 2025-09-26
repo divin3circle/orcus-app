@@ -34,7 +34,7 @@ const CampaignCard = ({ campaign }: { campaign: Campaign }) => {
             text={campaign.target_tokens.toLocaleString()}
             className="text-base font-semibold"
           />
-          <CustomText text="Balance" className="text-xs text-foreground/50" />
+          <CustomText text="Target" className="text-xs text-foreground/50" />
         </View>
       </View>
       <View className="mt-2">
