@@ -2,6 +2,7 @@ import { StyleSheet, Image, Text, View } from 'react-native';
 import React from 'react';
 import { Campaign } from '@/hooks/useCampaigns';
 import CustomText from '../ui/CustomText';
+import { Progress } from '@/components/ui/progress';
 
 const CampaignCard = ({ campaign }: { campaign: Campaign }) => {
   return (
@@ -35,6 +36,19 @@ const CampaignCard = ({ campaign }: { campaign: Campaign }) => {
           />
           <CustomText text="Balance" className="text-xs text-foreground/50" />
         </View>
+      </View>
+      <View className="mt-2">
+        <View className="mb-1 flex w-full flex-row items-center justify-between">
+          <CustomText
+            text={campaign.ended === 0 ? 'Active' : 'Ended'}
+            className="text-xs text-foreground/50"
+          />
+          <CustomText
+            text={`${((campaign.distributed / campaign.target_tokens) * 100).toFixed(2)}%`}
+            className="text-xs text-foreground/50"
+          />
+        </View>
+        <Progress value={(campaign.distributed / campaign.target_tokens) * 100 || 0} />
       </View>
     </View>
   );
