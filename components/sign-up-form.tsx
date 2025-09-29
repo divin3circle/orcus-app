@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import * as React from 'react';
-import { Pressable, type TextInput, View } from 'react-native';
+import { Pressable, Text, type TextInput, View } from 'react-native';
 import TitleText from './ui/title';
 import CustomText from './ui/CustomText';
 import { Link, useRouter } from 'expo-router';
@@ -15,6 +15,14 @@ export function SignUpForm() {
   const { logIn } = useAuthStore();
 
   function onUsernameSubmitEditing() {
+    passwordInputRef.current?.focus();
+  }
+
+  function onMobileNumberSubmitEditing() {
+    passwordInputRef.current?.focus();
+  }
+
+  function onProfileImageUrlSubmitEditing() {
     passwordInputRef.current?.focus();
   }
 
@@ -45,7 +53,6 @@ export function SignUpForm() {
                 id="username"
                 placeholder="username"
                 keyboardType="default"
-                autoComplete="email"
                 autoCapitalize="none"
                 onSubmitEditing={onUsernameSubmitEditing}
                 returnKeyType="next"
@@ -56,6 +63,41 @@ export function SignUpForm() {
                 }}
               />
             </View>
+            <View className="gap-1.5">
+              <Label htmlFor="mobile_number">
+                <CustomText text="Mobile Number" className="" />
+              </Label>
+              <Input
+                id="mobile_number"
+                placeholder="mobile number"
+                onSubmitEditing={onMobileNumberSubmitEditing}
+                returnKeyType="next"
+                keyboardType="numeric"
+                submitBehavior="submit"
+                className="border-2 border-border text-sm shadow-none"
+                style={{
+                  fontFamily: 'Montserrat',
+                }}
+              />
+            </View>
+            <View className="gap-1.5">
+              <Label htmlFor="profile_image_url">
+                <CustomText text="Profile Image URL" className="" />
+              </Label>
+              <Input
+                id="profile_image_url"
+                placeholder="profile image url"
+                onSubmitEditing={onProfileImageUrlSubmitEditing}
+                returnKeyType="next"
+                keyboardType="default"
+                submitBehavior="submit"
+                className="border-2 border-border text-sm shadow-none"
+                style={{
+                  fontFamily: 'Montserrat',
+                }}
+              />
+            </View>
+
             <View className="gap-1.5">
               <Label htmlFor="password">
                 <CustomText text="Password" className="" />
@@ -73,7 +115,13 @@ export function SignUpForm() {
               />
             </View>
             <Button className="w-full" onPress={onSubmit}>
-              <CustomText text="Continue" className="text-white" />
+              <Text
+                className="text-white"
+                style={{
+                  fontFamily: 'Montserrat',
+                }}>
+                Continue
+              </Text>
             </Button>
           </View>
           <View className="flex-row items-center justify-center">

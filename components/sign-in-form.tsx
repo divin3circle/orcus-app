@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import * as React from 'react';
-import { Pressable, type TextInput, View } from 'react-native';
+import { Pressable, Text, type TextInput, View } from 'react-native';
 import TitleText from './ui/title';
 import CustomText from './ui/CustomText';
 import { Link, useRouter } from 'expo-router';
@@ -80,7 +80,13 @@ export function SignInForm() {
               />
             </View>
             <Button className="w-full" onPress={onSubmit}>
-              <CustomText text="Continue" className="text-white" />
+              <Text
+                className="text-white"
+                style={{
+                  fontFamily: 'Montserrat',
+                }}>
+                Continue
+              </Text>
             </Button>
           </View>
           <View className="flex-row items-center justify-center">

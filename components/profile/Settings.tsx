@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Pressable } from 'react-native';
 import { Button } from '@/components/ui/button';
 import { useColorScheme } from 'nativewind';
 import React from 'react';
@@ -6,9 +6,11 @@ import CustomText from '../ui/CustomText';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Icon } from '../ui/icon';
 import { MoonStarIcon, SunIcon } from 'lucide-react-native';
+import { useAuthStore } from '@/utils/authStore';
 
 const Settings = () => {
   const { colorScheme, toggleColorScheme } = useColorScheme();
+  const { logOut } = useAuthStore();
   return (
     <View className="mx-2 mb-14 mt-4 rounded-xl bg-input/30 p-4">
       <View className="flex flex-row items-center justify-between">
@@ -57,7 +59,11 @@ const Settings = () => {
         </View>
       </View>
       <View className="my-2 flex flex-row items-center justify-between">
-        <View className="flex flex-row items-center gap-3">
+        <Pressable
+          className="flex flex-row items-center gap-3"
+          onPress={() => {
+            logOut();
+          }}>
           <Ionicons
             name="log-out-outline"
             size={26}
@@ -67,7 +73,7 @@ const Settings = () => {
             <CustomText text="Logout" className="text-xs text-muted-foreground" />
             <CustomText text="Exit App" className="text-sm" />
           </View>
-        </View>
+        </Pressable>
       </View>
     </View>
   );
