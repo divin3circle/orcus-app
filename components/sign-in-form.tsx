@@ -3,22 +3,78 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import * as React from 'react';
-import { Pressable, Text, type TextInput, View } from 'react-native';
+import { Pressable, Text, type TextInput, View, Alert } from 'react-native';
 import TitleText from './ui/title';
 import CustomText from './ui/CustomText';
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
+import { useAuthStore } from '@/utils/authStore';
+import { LoginData } from '@/services/authService';
 
 export function SignInForm() {
   const passwordInputRef = React.useRef<TextInput>(null);
   const router = useRouter();
+  const { logIn, isAuthLoading } = useAuthStore();
+
+  const [formData, setFormData] = React.useState<LoginData>({
+    username: '',
+    password: '',
+  });
+
+  const [errors, setErrors] = React.useState<Partial<LoginData>>({});
 
   function onUsernameSubmitEditing() {
     passwordInputRef.current?.focus();
   }
 
-  function onSubmit() {
-    // TODO: Submit form and navigate to protected screen if successful
-  }
+  const validateForm = (): boolean => {
+    const newErrors: Partial<LoginData> = {};
+
+    if (!formData.username.trim()) {
+      newErrors.username = 'Username is required';
+    }
+
+    if (!formData.password.trim()) {
+      newErrors.password = 'Password is required';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleInputChange = (field: keyof LoginData, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
+  };
+
+  const onSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      await logIn(formData);
+      setFormData({
+        username: '',
+        password: '',
+      });
+    } catch (error: any) {
+      console.error('Login error details:', error);
+
+      let errorMessage = 'Something went wrong. Please try again.';
+
+      if (error.response?.status === 401) {
+        errorMessage = 'Invalid username or password.';
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+
+      Alert.alert('Login Failed', errorMessage, [{ text: 'OK' }]);
+    }
+  };
 
   return (
     <View className="w-full gap-6">
@@ -43,14 +99,19 @@ export function SignInForm() {
                 keyboardType="default"
                 autoComplete="email"
                 autoCapitalize="none"
+                value={formData.username}
+                onChangeText={(value) => handleInputChange('username', value)}
                 onSubmitEditing={onUsernameSubmitEditing}
                 returnKeyType="next"
                 submitBehavior="submit"
-                className="border-2 border-border text-sm shadow-none"
+                className={`border-2 text-sm shadow-none ${errors.username ? 'border-red-500' : 'border-border'}`}
                 style={{
                   fontFamily: 'Montserrat',
                 }}
               />
+              {errors.username && (
+                <CustomText text={errors.username} className="text-xs text-red-500" />
+              )}
             </View>
             <View className="gap-1.5">
               <View className="flex-row items-center">
@@ -62,7 +123,10 @@ export function SignInForm() {
                   size="sm"
                   className="ml-auto h-4 px-1 py-0 web:h-fit sm:h-4"
                   onPress={() => {
-                    // TODO: Navigate to forgot password screen
+                    Alert.alert(
+                      'Forgot your password?',
+                      'Please contact support to reset your password'
+                    );
                   }}>
                   <CustomText text="Forgot your password?" className="font-normal leading-4" />
                 </Button>
@@ -71,21 +135,26 @@ export function SignInForm() {
                 ref={passwordInputRef}
                 id="password"
                 secureTextEntry
+                value={formData.password}
+                onChangeText={(value) => handleInputChange('password', value)}
                 returnKeyType="send"
                 onSubmitEditing={onSubmit}
-                className="border-2 border-border text-sm shadow-none"
+                className={`border-2 text-sm shadow-none ${errors.password ? 'border-red-500' : 'border-border'}`}
                 style={{
                   fontFamily: 'Montserrat',
                 }}
               />
+              {errors.password && (
+                <CustomText text={errors.password} className="text-xs text-red-500" />
+              )}
             </View>
-            <Button className="w-full" onPress={onSubmit}>
+            <Button className="w-full" onPress={onSubmit} disabled={isAuthLoading}>
               <Text
                 className="text-white"
                 style={{
                   fontFamily: 'Montserrat',
                 }}>
-                Continue
+                {isAuthLoading ? 'Signing In...' : 'Continue'}
               </Text>
             </Button>
           </View>
