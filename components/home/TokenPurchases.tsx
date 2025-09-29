@@ -49,7 +49,7 @@ const TokenPurchases = ({ limit = 3 }: { limit?: number }) => {
           <CustomText text="View All" className="text-xs" />
         </Pressable>
       </View>
-      <View className="">
+      <View className="flex flex-col-reverse">
         {data.slice(0, limit).map((transaction) => (
           <PurchaseCard key={transaction.id} transaction={transaction} />
         ))}

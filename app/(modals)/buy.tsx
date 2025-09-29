@@ -124,7 +124,7 @@ const Buy = () => {
 
   return (
     <View>
-      <View className="p-2">
+      <View className="px-4 py-2">
         <CustomText text="Buy" className="text-lg font-semibold" />
         <Text
           className="text-sm text-foreground/50"

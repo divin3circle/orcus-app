@@ -12,6 +12,8 @@ const PurchaseCard = ({ transaction }: { transaction: TokenPurchase }) => {
     return new Date(date).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
       year: 'numeric',
     });
   };
@@ -28,7 +30,7 @@ const PurchaseCard = ({ transaction }: { transaction: TokenPurchase }) => {
           <CustomText text="Token Purchase" />
           <CustomText
             text={formatDate(transaction.created_at)}
-            className="text-sm text-muted-foreground"
+            className="text-xs text-muted-foreground"
           />
         </View>
       </View>
