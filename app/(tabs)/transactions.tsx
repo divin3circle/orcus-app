@@ -8,6 +8,10 @@ import { useColorScheme } from 'nativewind';
 import * as React from 'react';
 import { type ImageStyle, ScrollView, View, SafeAreaView } from 'react-native';
 import ExpenseChart from '@/components/transactions/ExpenseChart';
+import { useTransactions } from '@/hooks/useTransactions';
+import { useTokenPurchases } from '@/hooks/useTokenPurchases';
+import { useMemo } from 'react';
+import { formatBalance } from '@/hooks/useBalances';
 
 const LOGO = {
   light: require('@/assets/images/react-native-reusables-light.png'),
@@ -38,6 +42,27 @@ const IMAGE_STYLE: ImageStyle = {
 
 export default function TransactionsScreen() {
   const { colorScheme } = useColorScheme();
+  const { data: transactions = [], isLoading: transactionsLoading } = useTransactions();
+  const { data: purchases = [], isLoading: purchasesLoading } = useTokenPurchases();
+
+  const totalExpenses = useMemo(() => {
+    const transactionTotal = transactions.reduce((sum, t) => sum + t.amount + t.fee, 0);
+    const purchaseTotal = purchases.reduce((sum, p) => sum + p.amount, 0);
+    return transactionTotal + purchaseTotal;
+  }, [transactions, purchases]);
+
+  const last30DaysExpenses = useMemo(() => {
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    const recentTransactions = transactions.filter((t) => new Date(t.created_at) >= thirtyDaysAgo);
+    const recentPurchases = purchases.filter((p) => new Date(p.created_at) >= thirtyDaysAgo);
+
+    const transactionTotal = recentTransactions.reduce((sum, t) => sum + t.amount + t.fee, 0);
+    const purchaseTotal = recentPurchases.reduce((sum, p) => sum + p.amount, 0);
+
+    return transactionTotal + purchaseTotal;
+  }, [transactions, purchases]);
 
   return (
     <SafeAreaView className="flex-1">
@@ -46,9 +71,12 @@ export default function TransactionsScreen() {
         <View className="">
           <View className="mx-4">
             <CustomText text="Total Expenses" className="text-base text-muted-foreground" />
-            <CustomText text="KES 736.87" className="text-2xl font-semibold" />
             <CustomText
-              text="Amount Spent in the last 30 days"
+              text={`KES ${formatBalance(totalExpenses)}`}
+              className="text-2xl font-semibold"
+            />
+            <CustomText
+              text={`Amount Spent in the last 30 days`}
               className="text-xs text-muted-foreground"
             />
           </View>
