@@ -48,7 +48,7 @@ const CampaignCard = ({ entry }: { entry: CampaignEntry }) => {
         </View>
         <View className="">
           <CustomText
-            text={formatBalance(campaign.distributed)}
+            text={campaign.distributed.toLocaleString()}
             className="text-base font-semibold"
           />
           <CustomText text="Distributed" className="text-xs text-foreground/50" />
@@ -65,11 +65,11 @@ const CampaignCard = ({ entry }: { entry: CampaignEntry }) => {
             className="text-xs text-foreground/50"
           />
           <CustomText
-            text={`${((campaign.distributed / campaign.target) * 100).toFixed(2)}%`}
+            text={`${((campaign.distributed / (campaign.target / 100)) * 100).toFixed(2)}%`}
             className="text-xs text-foreground/50"
           />
         </View>
-        <Progress value={(campaign.distributed / campaign.target) * 100 || 0} />
+        <Progress value={(campaign.distributed / (campaign.target / 100)) * 100 || 0} />
       </View>
     </View>
   );

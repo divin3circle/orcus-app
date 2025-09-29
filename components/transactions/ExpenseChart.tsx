@@ -52,8 +52,8 @@ const ExpenseChart = () => {
         />
       </View>
       <View className="mx-4">
-        <TokenPurchases limit={10} />
-        <RecentTransactions limit={10} />
+        <TokenPurchases limit={30} />
+        <RecentTransactions limit={30} />
       </View>
     </View>
   );

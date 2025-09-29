@@ -20,6 +20,7 @@ import { formatBalance, useBalances, useKESTBalance } from '@/hooks/useBalances'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useUserStore } from '@/utils/userStore';
 import { useGetShopByID } from '@/hooks/useShops';
+import { useShopCampaignManager } from '@/hooks/useCampaigns';
 
 const Pay = () => {
   const { paymentID, username } = useAuthStore();
@@ -30,6 +31,11 @@ const Pay = () => {
   const [transactionData, setTransactionData] = useState<TransactionResponse | null>(null);
   const { addFavoriteShop, isLoading: isLoadingFavoriteShop } = useUserStore();
   const { data: shop } = useGetShopByID(paymentId);
+  const {
+    campaigns,
+    joinOrUpdateCampaign,
+    isLoading: isCampaignLoading,
+  } = useShopCampaignManager(paymentId);
 
   const { pay, isLoading: isPaymentLoading } = usePay();
   const { refetch: refetchBalances } = useBalances();
@@ -103,6 +109,22 @@ const Pay = () => {
     }
   };
 
+  const handleJoinCampaign = async () => {
+    if (!campaigns || campaigns.length === 0) {
+      Alert.alert('No campaigns available', 'This shop has no active campaigns.');
+      return;
+    }
+
+    const availableCampaign = campaigns.find((c) => !c.isUserParticipating) || campaigns[0];
+
+    try {
+      await joinOrUpdateCampaign(availableCampaign.id, 10);
+      Alert.alert('Success', `Joined ${availableCampaign.name} campaign!`);
+    } catch (error: any) {
+      Alert.alert('Error', error.response?.data?.error || 'Failed to join campaign');
+    }
+  };
+
   if (paymentSuccess) {
     return (
       <View className="flex justify-center p-4">
@@ -168,13 +190,16 @@ const Pay = () => {
             </View>
           </View>
           <View className="mt-8 flex flex-row items-center justify-between">
-            <Pressable className="flex w-[45%] flex-row items-center justify-center gap-2 rounded-xl border border-foreground/50 bg-input/30 p-4">
+            <Pressable
+              className="flex w-[45%] flex-row items-center justify-center gap-2 rounded-xl border border-foreground/50 bg-input/30 p-4"
+              onPress={handleJoinCampaign}
+              disabled={isCampaignLoading}>
               <Text
                 className="text-sm font-semibold text-foreground"
                 style={{
                   fontFamily: 'Montserrat',
                 }}>
-                Join Campaign
+                {isCampaignLoading ? 'Joining...' : 'Join Campaign'}
               </Text>
             </Pressable>
             <Pressable
