@@ -10,6 +10,7 @@ import * as React from 'react';
 import { Image, type ImageStyle, SafeAreaView, ScrollView, View } from 'react-native';
 import PersonalInformation from '@/components/profile/PersonalInformation';
 import Settings from '@/components/profile/Settings';
+import { useAuthStore } from '@/utils/authStore';
 
 const SCREEN_OPTIONS = {
   light: {
@@ -35,6 +36,8 @@ const IMAGE_STYLE: ImageStyle = {
 
 export default function ProfileScreen() {
   const { colorScheme } = useColorScheme();
+  const { profileImageUrl } = useAuthStore();
+  const [imageError, setImageError] = React.useState(false);
 
   return (
     <SafeAreaView className="flex-1">
@@ -43,10 +46,30 @@ export default function ProfileScreen() {
         <View className="items-center justify-center gap-8 p-4">
           <CustomText text="Profile" className="text-lg font-semibold" />
           <View className="relative h-40 w-40 rounded-full border border-foreground/50">
-            <Image
-              source={require('@/assets/images/profile.jpeg')}
-              className="h-full w-full rounded-full"
-            />
+            {profileImageUrl && !imageError ? (
+              <Image
+                source={{ uri: profileImageUrl }}
+                style={{ width: 160, height: 160, borderRadius: 80 }}
+                resizeMode="cover"
+                onLoad={() => {
+                  console.log('✅ Profile image loaded successfully');
+                  setImageError(false);
+                }}
+                onError={(error) => {
+                  console.log(
+                    '❌ Profile image load error:',
+                    error.nativeEvent?.error || 'Unknown error'
+                  );
+                  setImageError(true);
+                }}
+              />
+            ) : (
+              <Image
+                source={require('@/assets/images/profile.jpeg')}
+                style={{ width: 160, height: 160, borderRadius: 80 }}
+                resizeMode="cover"
+              />
+            )}
             <View className="absolute bottom-0 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-foreground p-1">
               <Ionicons
                 name="camera-outline"

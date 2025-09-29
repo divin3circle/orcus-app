@@ -3,10 +3,16 @@ import React from 'react';
 import { Transaction } from '@/hooks/useTransactions';
 import { useGetShopByID } from '@/hooks/useShops';
 import CustomText from './CustomText';
+import { Skeleton } from './skeleton';
+import { formatBalance } from '@/hooks/useBalances';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 const TransactionCard = ({ transaction }: { transaction: Transaction }) => {
-  const { data: shop } = useGetShopByID(transaction.shop_id);
+  const { data: shop, isLoading, error } = useGetShopByID(transaction.shop_id);
+  if (isLoading) return <Skeleton className="mt-2 h-[70px] w-full rounded-lg bg-foreground/20" />;
+  if (error) return <CustomText text={`Error: ${error}`} className="mt-2" />;
   if (!shop) return null;
+  console.log(shop);
 
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString('en-US', {
@@ -19,9 +25,10 @@ const TransactionCard = ({ transaction }: { transaction: Transaction }) => {
   return (
     <View className="flex flex-row items-center justify-between rounded-xl bg-card p-4">
       <View className="flex flex-row items-center gap-2">
-        <Image
-          source={shop.profile_image_url}
-          className="h-10 w-10 rounded-full border-[1px] border-foreground/30"
+        <Ionicons
+          name="storefront-outline"
+          size={24}
+          color={shop.theme === 'red' ? 'red' : 'blue'}
         />
         <View className="">
           <CustomText text={shop.name} />
@@ -32,9 +39,12 @@ const TransactionCard = ({ transaction }: { transaction: Transaction }) => {
         </View>
       </View>
       <View className="flex items-end">
-        <CustomText text={`-KES ${transaction.amount}`} className="font-semibold text-red-500" />
         <CustomText
-          text={`KES ${transaction.fee.toString()}`}
+          text={`-KES ${formatBalance(transaction.amount)}`}
+          className="font-semibold text-red-500"
+        />
+        <CustomText
+          text={`KES ${formatBalance(transaction.fee)}`}
           className="text-xs text-muted-foreground"
         />
       </View>

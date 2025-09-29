@@ -18,7 +18,10 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.sylus.abel.orcusapp",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
       },
       "usesNonExemptEncryption": false
     },

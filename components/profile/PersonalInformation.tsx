@@ -1,11 +1,13 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Linking, View } from 'react-native';
 import React from 'react';
 import CustomText from '../ui/CustomText';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useColorScheme } from 'nativewind';
+import { useAuthStore } from '@/utils/authStore';
 
 const PersonalInformation = () => {
   const { colorScheme } = useColorScheme();
+  const { username, mobileNumber, accountId } = useAuthStore();
   return (
     <View className="mx-2 mt-4 rounded-xl bg-input/30 p-4">
       <View className="flex flex-row items-center justify-between">
@@ -23,7 +25,7 @@ const PersonalInformation = () => {
           />
           <View className="">
             <CustomText text="Username" className="text-xs text-muted-foreground" />
-            <CustomText text="John Doe" className="text-sm" />
+            <CustomText text={username} className="text-sm" />
           </View>
         </View>
       </View>
@@ -36,7 +38,7 @@ const PersonalInformation = () => {
           />
           <View className="">
             <CustomText text="Mobile Number" className="text-xs text-muted-foreground" />
-            <CustomText text="+254 701 838 690" className="text-sm" />
+            <CustomText text={mobileNumber} className="text-sm" />
           </View>
         </View>
       </View>
@@ -47,10 +49,14 @@ const PersonalInformation = () => {
             size={26}
             color={colorScheme === 'light' ? 'black' : 'white'}
           />
-          <View className="">
+          <Pressable
+            className=""
+            onPress={() => {
+              Linking.openURL(`https://hashscan.io/testnet/account/${accountId}`);
+            }}>
             <CustomText text="Hedera Account ID" className="text-xs text-muted-foreground" />
-            <CustomText text="0.0.68954" className="text-sm" />
-          </View>
+            <CustomText text={accountId} className="text-sm" />
+          </Pressable>
         </View>
       </View>
       <View className="my-2 flex flex-row items-center justify-between">

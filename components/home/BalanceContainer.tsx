@@ -1,10 +1,11 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import React from 'react';
-import { THEME } from '@/lib/theme';
 import { useColorScheme } from 'nativewind';
 import CustomText from '../ui/CustomText';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from 'expo-router';
+import { formatBalance, useKESTBalance } from '@/hooks/useBalances';
+import { Skeleton } from '../ui/skeleton';
 
 type ExpoIoniconsName = keyof typeof Ionicons.glyphMap;
 
@@ -41,12 +42,21 @@ const balanceActions = [
 
 const BalanceContainer = () => {
   const { colorScheme } = useColorScheme();
+  const { data: kshBalance, isLoading, error } = useKESTBalance();
+
   return (
     <View className="mt-4 flex items-center justify-between rounded-2xl border border-border bg-input/30 p-4">
       <View className="mt-21 mt-2 flex w-full flex-col items-center justify-end">
         <CustomText text="Total Balance" className="mb-1 text-muted-foreground" />
         <View className="flex flex-row items-center justify-center gap-2">
-          <CustomText text="KSH 0.00" className="text-3xl font-semibold" />
+          {error && <CustomText text="Error" className="text-red-500" />}
+          {isLoading && <Skeleton className="h-[20px] w-[20px] rounded-lg" />}
+          {!isLoading && !error && (
+            <CustomText
+              text={`KSH ${formatBalance(kshBalance)}`}
+              className="text-3xl font-semibold"
+            />
+          )}
           <Pressable>
             <Ionicons
               name="eye-outline"

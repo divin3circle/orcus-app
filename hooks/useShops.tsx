@@ -1,6 +1,7 @@
 import { mockShops } from '@/mocks';
 import { ImageSourcePropType } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
+import { authAxios } from '@/services/authService';
 
 export interface Shop {
   id: string;
@@ -13,6 +14,10 @@ export interface Shop {
   updated_at: string;
 }
 
+interface GetShopByIDResponse {
+  shop: Shop;
+}
+
 export function useGetShopByID(id: string) {
   const { data, isLoading, error } = useQuery({
     queryKey: ['shop', id],
@@ -21,6 +26,8 @@ export function useGetShopByID(id: string) {
   return { data, isLoading, error };
 }
 
-async function getShopByID(id: string) {
-  return mockShops.find((shop) => shop.id === id);
+async function getShopByID(id: string): Promise<Shop | undefined> {
+  const response = await authAxios.get(`user/shops/${id}`);
+  const data = response.data as GetShopByIDResponse;
+  return data.shop;
 }
