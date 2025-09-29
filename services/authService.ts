@@ -41,7 +41,7 @@ export interface LoginData {
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  timeout: 50000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -60,7 +60,7 @@ const isTokenValid = (expiry: string): boolean => {
 
 export const authAxios = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  timeout: 50000,
   headers: {
     'Content-Type': 'application/json',
   },

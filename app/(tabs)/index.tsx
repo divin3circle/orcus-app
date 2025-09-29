@@ -7,16 +7,15 @@ import { Stack } from 'expo-router';
 import { MoonStarIcon, SunIcon } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import * as React from 'react';
-import { ScrollView, type ImageStyle, SafeAreaView, View } from 'react-native';
+import { ScrollView, type ImageStyle, SafeAreaView, View, RefreshControl } from 'react-native';
 import Favorites from '@/components/home/Favorites';
 import RecentTransactions from '@/components/home/RecentTransactions';
 import Campaigns from '@/components/home/Campaigns';
 import TokenPurchases from '@/components/home/TokenPurchases';
-
-const LOGO = {
-  light: require('@/assets/images/react-native-reusables-light.png'),
-  dark: require('@/assets/images/react-native-reusables-dark.png'),
-};
+import { useTokenPurchases } from '@/hooks/useTokenPurchases';
+import { useCampaigns } from '@/hooks/useCampaigns';
+import { useTransactions } from '@/hooks/useTransactions';
+import { useBalances } from '@/hooks/useBalances';
 
 const SCREEN_OPTIONS = {
   light: {
@@ -35,17 +34,45 @@ const SCREEN_OPTIONS = {
   },
 };
 
-const IMAGE_STYLE: ImageStyle = {
-  height: 76,
-  width: 76,
-};
-
 export default function HomeScreen() {
   const { colorScheme } = useColorScheme();
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const { refetch: refetchBalances } = useBalances();
+  const { refetch: refetchTransactions } = useTransactions();
+  const { refetch: refetchCampaigns } = useCampaigns();
+  const { refetch: refetchTokenPurchases } = useTokenPurchases();
+
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+
+    try {
+      await Promise.all([
+        refetchBalances(),
+        refetchTransactions(),
+        refetchCampaigns(),
+        refetchTokenPurchases(),
+      ]);
+    } catch (error) {
+      console.error('Refresh failed:', error);
+    } finally {
+      setRefreshing(false);
+    }
+  }, [refetchBalances, refetchTransactions, refetchCampaigns, refetchTokenPurchases]);
 
   return (
     <SafeAreaView className="flex-1">
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={colorScheme === 'dark' ? '#ffffff' : '#000000'}
+            colors={['#000000']}
+            title="Pull to refresh"
+            titleColor={colorScheme === 'dark' ? '#ffffff' : '#000000'}
+          />
+        }>
         <Stack.Screen options={SCREEN_OPTIONS[colorScheme ?? 'light']} />
         <View className="mx-4">
           <HomeHeader />

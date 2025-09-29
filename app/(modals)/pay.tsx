@@ -1,10 +1,12 @@
 import {
+  Alert,
+  Clipboard,
   Image,
+  Linking,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
-  useWindowDimensions,
   View,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
@@ -13,22 +15,31 @@ import CustomKeyboards from '@/components/ui/custom-keyboard';
 import { useAuthStore } from '@/utils/authStore';
 import Lottie from 'lottie-react-native';
 import animation from '@/assets/lottie/successAnimation.json';
+import { usePay, TransactionResponse } from '@/hooks/usePay';
+import { formatBalance, useBalances, useKESTBalance } from '@/hooks/useBalances';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useColorScheme } from 'nativewind';
+import { useUserStore } from '@/utils/userStore';
+import { useGetShopByID } from '@/hooks/useShops';
 
 const Pay = () => {
-  const { paymentID } = useAuthStore();
-  const { colorScheme } = useColorScheme();
+  const { paymentID, username } = useAuthStore();
+  const { data: kshBalance } = useKESTBalance();
   const [amount, setAmount] = useState('0');
   const [paymentId, setPaymentId] = useState('');
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [transactionData, setTransactionData] = useState<TransactionResponse | null>(null);
+  const { addFavoriteShop, isLoading: isLoadingFavoriteShop } = useUserStore();
+  const { data: shop } = useGetShopByID(paymentId);
+
+  const { pay, isLoading: isPaymentLoading } = usePay();
+  const { refetch: refetchBalances } = useBalances();
 
   useEffect(() => {
     setPaymentId(paymentID);
   }, [paymentID]);
 
   const handleKeyPress = (key: string) => {
-    if (key === 'Ksh') return; // Handle currency toggle if needed
+    if (key === 'Ksh') return;
 
     if (amount === '0' && key !== '.') {
       setAmount(key);
@@ -53,12 +64,43 @@ const Pay = () => {
     setAmount(quickAmount);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (amount === '0') {
       return;
     }
-    console.log('Confirming payment:', amount);
-    setPaymentSuccess(true);
+
+    try {
+      const result = await pay({
+        shop_id: paymentId,
+        username: username,
+        amount: Number(amount),
+      });
+
+      setTransactionData(result.data);
+      setPaymentSuccess(true);
+
+      await refetchBalances();
+    } catch (error: any) {
+      console.error('Payment failed:', error);
+
+      // Show Alert with the error message
+      let errorMessage = 'Payment failed. Please try again.';
+
+      if (error.response?.data?.error === 'insufficient balance') {
+        errorMessage = 'Insufficient balance. Please check your account balance.';
+      } else if (error.response?.data?.error) {
+        errorMessage = error.response.data.error;
+      }
+
+      Alert.alert('Payment Failed', errorMessage, [{ text: 'OK' }]);
+    }
+  };
+
+  const handleSaveShop = () => {
+    if (shop) {
+      addFavoriteShop(shop);
+      Alert.alert('Shop saved to favorites');
+    }
   };
 
   if (paymentSuccess) {
@@ -72,56 +114,79 @@ const Pay = () => {
             style={{
               fontFamily: 'Montserrat',
             }}>
-            You payment of KES {amount} was successful
+            Your payment of KES {formatBalance(transactionData?.transaction?.amount)} was successful
           </Text>
         </View>
-        <View className="mt-12">
+        <View className="mt-6">
           <CustomText text="Transaction Details" className="text-lg font-semibold" />
           <View className="mt-4 flex gap-4 rounded-xl border border-foreground/20 bg-input/30 p-4">
             <View className="flex flex-row items-center justify-between">
               <CustomText text="Transaction ID" className="font-semibold" />
-              <Text className="text-sm text-foreground/50">{paymentID}</Text>
+              <Pressable
+                className="flex flex-row items-center gap-2"
+                onPress={() => {
+                  Clipboard.setString(transactionData?.hedera_transaction.transactionID || '');
+                  Alert.alert('Copied to clipboard');
+                }}>
+                <Text className="text-sm text-foreground/50">
+                  {transactionData?.hedera_transaction.transactionID.slice(0, 12) + '...' || ''}
+                </Text>
+                <Ionicons name="copy-outline" size={16} color="orange" />
+              </Pressable>
             </View>
             <View className="flex flex-row items-center justify-between">
               <CustomText text="Shop ID" className="font-semibold" />
-              <Text className="text-sm text-foreground/50">{paymentID}</Text>
+              <Text className="text-sm text-foreground/50">
+                {transactionData?.transaction?.shop_id?.slice(0, 6) + '...' || ''}
+              </Text>
             </View>
             <View className="flex flex-row items-center justify-between">
               <CustomText text="Merchant ID" className="font-semibold" />
-              <Text className="text-sm text-foreground/50">{paymentID}</Text>
+              <Text className="text-sm text-foreground/50">
+                {transactionData?.transaction?.merchant_id?.slice(0, 6) + '...' || ''}
+              </Text>
             </View>
             <View className="flex flex-row items-center justify-between">
               <CustomText text="Amount" className="font-semibold" />
-              <Text className="text-sm text-foreground/50">KSH {amount}</Text>
+              <Text className="text-sm text-foreground/50">
+                KSH {formatBalance(transactionData?.transaction?.amount)}
+              </Text>
             </View>
             <View className="flex flex-row items-center justify-between">
               <CustomText text="Fee" className="font-semibold" />
               <Text className="text-sm text-foreground/50">
-                KSH {(Number(amount) * 0.005).toFixed(2)}
+                KSH {transactionData?.transaction?.fee || (Number(amount) * 0.005).toFixed(2)}
               </Text>
             </View>
             <View className="flex flex-row items-center justify-between">
               <CustomText text="Date" className="font-semibold" />
-              <Text className="text-sm text-foreground/50">{new Date().toLocaleDateString()}</Text>
+              <Text className="text-sm text-foreground/50">
+                {transactionData?.transaction?.created_at
+                  ? new Date(transactionData.transaction.created_at).toLocaleDateString()
+                  : new Date().toLocaleDateString()}
+              </Text>
             </View>
           </View>
           <View className="mt-8 flex flex-row items-center justify-between">
-            <Pressable className="flex w-[45%] flex-row items-center justify-center gap-2 rounded-xl bg-blue-500 p-4">
+            <Pressable className="flex w-[45%] flex-row items-center justify-center gap-2 rounded-xl border border-foreground/50 bg-input/30 p-4">
               <Text
-                className="text-sm font-semibold text-background"
+                className="text-sm font-semibold text-foreground"
                 style={{
                   fontFamily: 'Montserrat',
                 }}>
                 Join Campaign
               </Text>
             </Pressable>
-            <Pressable className="flex w-[45%] flex-row items-center justify-center gap-2 rounded-xl bg-foreground p-4">
+            <Pressable
+              className="flex w-[45%] flex-row items-center justify-center gap-2 rounded-xl bg-foreground p-4"
+              onPress={handleSaveShop}
+              disabled={isLoadingFavoriteShop}>
               <Text
                 className="text-sm font-semibold text-background"
                 style={{
                   fontFamily: 'Montserrat',
                 }}>
-                Save Shop
+                {isLoadingFavoriteShop ? 'Saving...' : 'Save Shop'}
               </Text>
             </Pressable>
           </View>
@@ -160,7 +225,10 @@ const Pay = () => {
               }}>
               Current Balance
             </Text>
-            <CustomText text="KES 0.00" className="text-lg font-semibold" />
+            <CustomText
+              text={`KES ${formatBalance(kshBalance)}`}
+              className="text-lg font-semibold"
+            />
           </View>
         </View>
         <View className="mt-1 p-4">
@@ -209,11 +277,13 @@ const Pay = () => {
           </Pressable>
         </View>
       </View>
+
       <CustomKeyboards
         onKeyPress={handleKeyPress}
         onClear={handleClear}
         onBackspace={handleBackspace}
         onConfirm={handleConfirm}
+        isLoading={isPaymentLoading}
       />
     </View>
   );

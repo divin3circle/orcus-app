@@ -6,12 +6,12 @@ import { router } from 'expo-router';
 import { useTransactions } from '@/hooks/useTransactions';
 import { Skeleton } from '../ui/skeleton';
 
-const RecentTransactions = () => {
+const RecentTransactions = ({ limit = 3 }: { limit?: number }) => {
   const { data, isLoading, error } = useTransactions();
 
   if (isLoading) {
     return (
-      <View className="mt-4 pb-16">
+      <View className="mt-6 pb-16">
         <CustomText text="Recent Transactions" className="text-lg font-semibold" />
         <View className="mt-2 flex items-center gap-2">
           <Skeleton className="h-[70px] w-full rounded-lg bg-foreground/20" />
@@ -23,7 +23,7 @@ const RecentTransactions = () => {
   }
   if (error) {
     return (
-      <View className="mt-4 pb-16">
+      <View className="mt-6 pb-16">
         <CustomText text={`Error: ${error}`} className="text-lg font-semibold" />
       </View>
     );
@@ -37,7 +37,7 @@ const RecentTransactions = () => {
     );
   }
   return (
-    <View className="mt-4 pb-16">
+    <View className="mt-6 pb-16">
       <View className="flex flex-row items-center justify-between">
         <CustomText text="Recent Transactions" className="text-lg font-semibold" />
         <Pressable
@@ -47,7 +47,7 @@ const RecentTransactions = () => {
         </Pressable>
       </View>
       <View className="">
-        {data.slice(0, 3).map((transaction) => (
+        {data.slice(0, limit).map((transaction) => (
           <TransactionCard key={transaction.id} transaction={transaction} />
         ))}
       </View>

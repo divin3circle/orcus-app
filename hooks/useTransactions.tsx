@@ -20,12 +20,12 @@ interface GetTransactionsResponse {
 
 export const useTransactions = () => {
   const { id: userID } = useAuthStore();
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['transactions'],
     queryFn: () => getTransactions(userID),
     enabled: !!userID,
   });
-  return { data, isLoading, error };
+  return { data, isLoading, error, refetch };
 };
 
 async function getTransactions(userID: string | undefined): Promise<Transaction[] | undefined> {

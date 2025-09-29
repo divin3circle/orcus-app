@@ -12,7 +12,6 @@ const TransactionCard = ({ transaction }: { transaction: Transaction }) => {
   if (isLoading) return <Skeleton className="mt-2 h-[70px] w-full rounded-lg bg-foreground/20" />;
   if (error) return <CustomText text={`Error: ${error}`} className="mt-2" />;
   if (!shop) return null;
-  console.log(shop);
 
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString('en-US', {

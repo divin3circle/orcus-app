@@ -1,7 +1,6 @@
 import { StyleSheet, ImageBackground, View, Image, Pressable, Text } from 'react-native';
 import React from 'react';
 import { Shop } from '@/hooks/useShops';
-import CustomText from '../ui/CustomText';
 import red from '@/assets/images/small-red.png';
 import blue from '@/assets/images/small-blue.png';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -13,7 +12,7 @@ const FavoriteShopCard = ({ shop }: { shop: Shop }) => {
   const { setPaymentID } = useAuthStore();
 
   const handlePay = () => {
-    setPaymentID(shop.payment_id);
+    setPaymentID(shop.id);
     router.push('/(modals)/pay');
   };
   return (
@@ -29,7 +28,7 @@ const FavoriteShopCard = ({ shop }: { shop: Shop }) => {
           {shop.name}
         </Text>
       </View>
-      <Image className="h-10 w-10 rounded-full" source={shop.profile_image_url} />
+      <Ionicons name="storefront-outline" size={32} color="white" />
       <View className="flex flex-row items-center gap-1">
         <Pressable className="flex flex-row items-center gap-1" onPress={handlePay}>
           <Ionicons name="arrow-up-outline" size={16} color="white" />

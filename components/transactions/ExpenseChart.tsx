@@ -1,16 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
-import {
-  BarChart,
-  LineChart,
-  PieChart,
-  PopulationPyramid,
-  RadarChart,
-} from 'react-native-gifted-charts';
+import { BarChart } from 'react-native-gifted-charts';
 import CustomText from '../ui/CustomText';
 import { THEME } from '@/lib/theme';
-import { mockTransactions } from '@/mocks';
-import TransactionCard from '../ui/transaction-card';
+import RecentTransactions from '../home/RecentTransactions';
+import TokenPurchases from '../home/TokenPurchases';
 
 const data = [
   { value: 50, label: 'Mon' },
@@ -57,13 +51,9 @@ const ExpenseChart = () => {
           }}
         />
       </View>
-      <View className="mt-4">
-        <CustomText text="Transaction History" className="mx-4 text-lg font-semibold" />
-        <View className="mt-2 pb-14">
-          {mockTransactions.map((transaction) => (
-            <TransactionCard key={transaction.id} transaction={transaction} />
-          ))}
-        </View>
+      <View className="mx-4">
+        <TokenPurchases limit={10} />
+        <RecentTransactions limit={10} />
       </View>
     </View>
   );

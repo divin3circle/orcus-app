@@ -43,8 +43,8 @@ const Campaigns = () => {
     <View className="mt-8">
       <CustomText text="My Campaigns" className="text-lg font-semibold" />
       <View className="mt-2 flex items-center gap-2">
-        {mockCampaigns.map((campaign) => (
-          <CampaignCard key={campaign.id} campaign={campaign} />
+        {data.map((campaign) => (
+          <CampaignCard key={campaign.id} entry={campaign} />
         ))}
       </View>
     </View>

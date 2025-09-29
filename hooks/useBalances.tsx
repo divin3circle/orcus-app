@@ -19,13 +19,13 @@ export interface Tokens extends Array<Token> {}
 export const useBalances = () => {
   const { accountId } = useAuthStore();
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['balances'],
     queryFn: () => getBalances(accountId),
     enabled: !!accountId,
   });
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, refetch };
 };
 
 async function getBalances(accountId: string | undefined): Promise<Tokens> {
@@ -43,16 +43,18 @@ export const useKESTBalance = () => {
     data: kshBalance,
     isLoading,
     error,
+    refetch,
   } = useQuery({
     queryKey: ['kshBalance'],
     queryFn: () => getKESTBalance(tokens),
+    staleTime: 1000 * 60 * 3,
   });
-  return { data: kshBalance, isLoading, error };
+  return { data: kshBalance, isLoading, error, refetch };
 };
 
 async function getKESTBalance(tokens: Tokens | undefined): Promise<number> {
   if (!tokens) {
-    throw new Error('Tokens not found');
+    throw new Error('Tokens not found!');
   }
   const kshToken = tokens.find((token) => token.token_id === KSH_TOKEN_ID);
   if (!kshToken) {
