@@ -1,10 +1,24 @@
-import { View, Text, Image, TextInput } from 'react-native';
+import { Alert, View, Text, Image, TextInput, Pressable } from 'react-native';
 import React, { useState } from 'react';
 import CustomText from '@/components/ui/CustomText';
 import CustomKeyboards from '@/components/ui/custom-keyboard';
+import { useBuy, BuyResponse } from '@/hooks/useBuy';
+import { useAuthStore } from '@/utils/authStore';
+import { useBalances, useKESTBalance, formatBalance } from '@/hooks/useBalances';
+import Lottie from 'lottie-react-native';
+import animation from '@/assets/lottie/successAnimation.json';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { Clipboard } from 'react-native';
 
 const Buy = () => {
+  const { id: userId } = useAuthStore();
+  const { data: kshBalance } = useKESTBalance();
   const [amount, setAmount] = useState('100');
+  const [buySuccess, setBuySuccess] = useState(false);
+  const [buyData, setBuyData] = useState<BuyResponse | null>(null);
+
+  const { buy, isLoading: isBuyLoading } = useBuy();
+  const { refetch: refetchBalances } = useBalances();
   const handleKeyPress = (key: string) => {
     if (key === 'Ksh') return; // Handle currency toggle if needed
 
@@ -31,9 +45,83 @@ const Buy = () => {
     setAmount(quickAmount);
   };
 
-  const handleConfirm = () => {
-    console.log('Confirming purchase:', amount);
+  const handleConfirm = async () => {
+    if (amount === '0') {
+      return;
+    }
+
+    try {
+      const result = await buy({
+        user_id: userId,
+        amount: Number(amount),
+      });
+
+      setBuyData(result);
+      setBuySuccess(true);
+      await refetchBalances();
+    } catch (error: any) {
+      console.error('Buy failed:', error);
+
+      let errorMessage = 'Purchase failed. Please try again.';
+
+      if (error.response?.data?.error === 'insufficient balance') {
+        errorMessage = 'Insufficient balance. Please check your account balance.';
+      } else if (error.response?.data?.error) {
+        errorMessage = error.response.data.error;
+      }
+
+      Alert.alert('Purchase Failed', errorMessage, [{ text: 'OK' }]);
+    }
   };
+
+  if (buySuccess) {
+    return (
+      <View className="flex justify-center p-4">
+        <View className="flex w-full items-center justify-center">
+          <Lottie source={animation} autoPlay loop={false} style={{ width: 200, height: 200 }} />
+          <CustomText text="Purchase Successful" className="text-lg font-semibold" />
+          <Text
+            className="text-sm text-foreground/50"
+            style={{
+              fontFamily: 'Montserrat',
+            }}>
+            {buyData?.message ||
+              `Your purchase of KES ${formatBalance(Number(amount))} was successful`}
+          </Text>
+        </View>
+        <View className="mt-6">
+          <CustomText text="Transaction Details" className="text-lg font-semibold" />
+          <View className="mt-4 flex gap-4 rounded-xl border border-foreground/20 bg-input/30 p-4">
+            <View className="flex flex-row items-center justify-between">
+              <CustomText text="Transaction ID" className="font-semibold" />
+              <Pressable
+                className="flex flex-row items-center gap-2"
+                onPress={() => {
+                  Clipboard.setString(buyData?.transaction_id || '');
+                  Alert.alert('Copied to clipboard');
+                }}>
+                <Text className="text-sm text-foreground/50">
+                  {buyData?.transaction_id?.slice(0, 12) + '...' || ''}
+                </Text>
+                <Ionicons name="copy-outline" size={16} color="orange" />
+              </Pressable>
+            </View>
+            <View className="flex flex-row items-center justify-between">
+              <CustomText text="Amount" className="font-semibold" />
+              <Text className="text-sm text-foreground/50">
+                KSH {formatBalance(Number(amount) * 100)}
+              </Text>
+            </View>
+            <View className="flex flex-row items-center justify-between">
+              <CustomText text="Date" className="font-semibold" />
+              <Text className="text-sm text-foreground/50">{new Date().toLocaleDateString()}</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View>
       <View className="p-2">
@@ -59,7 +147,7 @@ const Buy = () => {
             }}>
             Current Balance
           </Text>
-          <CustomText text="KES 0.00" className="text-lg font-semibold" />
+          <CustomText text={`KES ${formatBalance(kshBalance)}`} className="text-lg font-semibold" />
         </View>
       </View>
       <View className="mt-1 p-4">
@@ -107,7 +195,7 @@ const Buy = () => {
             KSH
           </Text>
           <Text className="text-4xl font-semibold text-foreground">
-            {(Number(amount) * 0.98).toFixed(2)}
+            {Number(amount).toFixed(2)}
           </Text>
         </View>
       </View>
@@ -116,6 +204,7 @@ const Buy = () => {
         onClear={handleClear}
         onBackspace={handleBackspace}
         onConfirm={handleConfirm}
+        isLoading={isBuyLoading}
       />
     </View>
   );
