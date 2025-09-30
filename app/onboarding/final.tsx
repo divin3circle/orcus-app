@@ -6,12 +6,15 @@ import animation from '@/assets/lottie/animation2.json';
 import CustomText from '@/components/ui/CustomText';
 import { ArrowRight } from 'lucide-react-native';
 import { useAuthStore } from '@/utils/authStore';
+import { useColorScheme } from 'nativewind';
 
 const FinalOnboarding = () => {
   const { width } = useWindowDimensions();
   const { completeOnboarding } = useAuthStore();
+  const { colorScheme } = useColorScheme();
   return (
-    <SafeAreaView className="flex-1 items-center justify-center bg-[#d9d9d9]">
+    <SafeAreaView
+      className={`flex-1 items-center justify-center bg-[${colorScheme === 'dark' ? '#000' : '#d9d9d9'}]`}>
       <CustomText text="Let's get you started" className="text-2xl" />
       <Lottie
         source={animation}
@@ -32,7 +35,9 @@ const FinalOnboarding = () => {
               router.push('/onboarding');
             }}
           />
-          <View className="h-4 w-4 rounded-full bg-[#191919]" />
+          <View
+            className={`h-4 w-4 rounded-full bg-[${colorScheme === 'dark' ? '#191919' : '#d9d9d9'}]`}
+          />
         </View>
         <View className="flex w-full flex-row items-center justify-between">
           <CustomText text="Skip" className="text-gray-500" />

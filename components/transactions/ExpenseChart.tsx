@@ -12,7 +12,6 @@ import { useColorScheme } from 'nativewind';
 const ExpenseChart = () => {
   const { colorScheme } = useColorScheme();
   const { data: transactions = [], isLoading: transactionsLoading } = useTransactions();
-  const { data: purchases = [], isLoading: purchasesLoading } = useTokenPurchases();
 
   const chartData = useMemo(() => {
     const last7Days = Array.from({ length: 7 }, (_, i) => {
@@ -21,18 +20,11 @@ const ExpenseChart = () => {
       return date;
     });
 
-    const allExpenses = [
-      ...transactions.map((t) => ({
-        date: new Date(t.created_at),
-        amount: t.amount + t.fee,
-        type: 'transaction' as const,
-      })),
-      ...purchases.map((p) => ({
-        date: new Date(p.created_at),
-        amount: p.amount,
-        type: 'purchase' as const,
-      })),
-    ];
+    const allExpenses = transactions.map((t) => ({
+      date: new Date(t.created_at),
+      amount: t.amount + t.fee,
+      type: 'transaction' as const,
+    }));
 
     const dailyExpenses = last7Days.map((day) => {
       const dayStart = new Date(day);
@@ -48,21 +40,15 @@ const ExpenseChart = () => {
       const totalAmount = dayExpenses.reduce((sum, expense) => sum + expense.amount, 0);
 
       return {
-        value: Math.round((totalAmount / 100) * 100) / 100,
+        value: totalAmount / 100,
         label: day.toLocaleDateString('en-US', { weekday: 'short' }),
       };
     });
 
     return dailyExpenses;
-  }, [transactions, purchases]);
+  }, [transactions]);
 
-  const totalExpenses = useMemo(() => {
-    const transactionTotal = transactions.reduce((sum, t) => sum + t.amount + t.fee, 0);
-    const purchaseTotal = purchases.reduce((sum, p) => sum + p.amount, 0);
-    return transactionTotal + purchaseTotal;
-  }, [transactions, purchases]);
-
-  if (transactionsLoading || purchasesLoading) {
+  if (transactionsLoading) {
     return (
       <View className="mt-4">
         <CustomText text="Expense Chart" className="mx-4 text-lg font-semibold" />
@@ -81,7 +67,7 @@ const ExpenseChart = () => {
           data={chartData}
           frontColor={colorScheme === 'dark' ? '#8B5CF6' : '#FF00FF'}
           height={400}
-          noOfSections={8}
+          noOfSections={5}
           barBorderRadius={10}
           yAxisThickness={0}
           xAxisThickness={0}

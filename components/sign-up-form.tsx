@@ -112,7 +112,13 @@ export function SignUpForm() {
       <Card className="border-border/0 shadow-none sm:border-border sm:shadow-sm sm:shadow-black/5">
         <CardHeader>
           <CardTitle asChild>
-            <TitleText title="Create your account" />
+            <Text
+              className="text-xl font-semibold"
+              style={{
+                fontFamily: 'Montserrat',
+              }}>
+              Create your account
+            </Text>
           </CardTitle>
           <CardDescription asChild>
             <CustomText text="Welcome! Please fill in the details to get started" className="" />
@@ -212,7 +218,7 @@ export function SignUpForm() {
             </View>
             <Button className="w-full" onPress={onSubmit} disabled={isAuthLoading}>
               <Text
-                className="text-white"
+                className=""
                 style={{
                   fontFamily: 'Montserrat',
                 }}>

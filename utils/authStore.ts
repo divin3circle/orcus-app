@@ -10,6 +10,7 @@ export interface User {
   mobileNumber: string;
   profileImageUrl: string;
   accountId: string;
+  topicId: string;
   encryptedKey: string;
   authToken: string;
   tokenExpiry: string;
@@ -34,6 +35,7 @@ export const useAuthStore = create(
       username: '',
       mobileNumber: '',
       accountId: '',
+      topicId: '',
       profileImageUrl: '',
       authToken: '',
       encryptedKey: '',
@@ -75,13 +77,26 @@ export const useAuthStore = create(
               isAuthLoading: true,
             };
           });
-          const response = await authService.login(userData);
+
+          const loginResponse = await authService.login(userData);
+          const userResponse = await authService.getUserById(
+            loginResponse.user_id,
+            loginResponse.token.token
+          );
+
           set((state) => {
             return {
               ...state,
-              authToken: response.token.token,
-              tokenExpiry: response.token.expiry,
-              id: response.user_id,
+              authToken: loginResponse.token.token,
+              tokenExpiry: loginResponse.token.expiry,
+              id: userResponse.user.id,
+              username: userResponse.user.username,
+              mobileNumber: userResponse.user.mobile_number,
+              accountId: userResponse.user.account_id,
+              topicId: userResponse.user.topic_id,
+              profileImageUrl: userResponse.user.profile_image_url,
+              createdAt: userResponse.user.created_at,
+              updatedAt: userResponse.user.updated_at,
               isLoggedIn: true,
               isAuthLoading: false,
             };
@@ -109,8 +124,10 @@ export const useAuthStore = create(
             username: '',
             mobileNumber: '',
             accountId: '',
+            topicId: '',
             profileImageUrl: '',
-            encryptedKey: '',
+            createdAt: '',
+            updatedAt: '',
           };
         });
       },

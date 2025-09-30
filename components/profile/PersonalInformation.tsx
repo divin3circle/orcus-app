@@ -7,7 +7,7 @@ import { useAuthStore } from '@/utils/authStore';
 
 const PersonalInformation = () => {
   const { colorScheme } = useColorScheme();
-  const { username, mobileNumber, accountId } = useAuthStore();
+  const { username, mobileNumber, accountId, topicId } = useAuthStore();
   return (
     <View className="mx-2 mt-4 rounded-xl bg-input/30 p-4">
       <View className="flex flex-row items-center justify-between">
@@ -60,17 +60,21 @@ const PersonalInformation = () => {
         </View>
       </View>
       <View className="my-2 flex flex-row items-center justify-between">
-        <View className="flex flex-row items-center gap-3">
+        <Pressable className="flex flex-row items-center gap-3">
           <Ionicons
             name="notifications-outline"
             size={26}
             color={colorScheme === 'light' ? 'black' : 'white'}
           />
-          <View className="">
+          <Pressable
+            className=""
+            onPress={() => {
+              Linking.openURL(`https://hashscan.io/testnet/topic/${topicId}`);
+            }}>
             <CustomText text="Topic ID" className="text-xs text-muted-foreground" />
-            <CustomText text="0.0.59784" className="text-sm" />
-          </View>
-        </View>
+            <CustomText text={topicId} className="text-sm" />
+          </Pressable>
+        </Pressable>
       </View>
     </View>
   );

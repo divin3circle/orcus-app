@@ -27,6 +27,20 @@ interface RegisterResponse {
   };
 }
 
+interface GetUserByIdResponse {
+  user: {
+    id: string;
+    username: string;
+    topic_id: string;
+    mobile_number: string;
+    account_id: string;
+    profile_image_url: string;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
+  };
+}
+
 export interface RegisterData {
   username: string;
   mobile_number: string;
@@ -109,6 +123,20 @@ authAxios.interceptors.response.use(
 export const authService = {
   async login(userData: LoginData): Promise<LoginResponse> {
     const response = await apiClient.post('/login-user', userData);
+    return response.data;
+  },
+
+  async getUserById(userId: string, authToken: string): Promise<GetUserByIdResponse> {
+    const tempAxios = axios.create({
+      baseURL: API_BASE_URL,
+      timeout: 50000,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+
+    const response = await tempAxios.get(`/users-id/${userId}`);
     return response.data;
   },
 

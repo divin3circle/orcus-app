@@ -9,11 +9,13 @@ import CustomText from './ui/CustomText';
 import { useRouter } from 'expo-router';
 import { useAuthStore } from '@/utils/authStore';
 import { LoginData } from '@/services/authService';
+import { useColorScheme } from 'nativewind';
 
 export function SignInForm() {
   const passwordInputRef = React.useRef<TextInput>(null);
   const router = useRouter();
   const { logIn, isAuthLoading } = useAuthStore();
+  const { colorScheme } = useColorScheme();
 
   const [formData, setFormData] = React.useState<LoginData>({
     username: '',
@@ -81,10 +83,16 @@ export function SignInForm() {
       <Card className="border-border/0 shadow-none sm:border-border sm:shadow-sm sm:shadow-black/5">
         <CardHeader>
           <CardTitle asChild>
-            <TitleText title="Sign in to Orcus" />
+            <Text
+              className="text-xl font-semibold"
+              style={{
+                fontFamily: 'Montserrat',
+              }}>
+              Sign in to Orcus
+            </Text>
           </CardTitle>
           <CardDescription asChild>
-            <CustomText text="Welcome back! Please sign in to continue" className="" />
+            <CustomText text="Welcome back! Please sign in to continue" className="text-sm" />
           </CardDescription>
         </CardHeader>
         <CardContent className="gap-6">
@@ -150,7 +158,7 @@ export function SignInForm() {
             </View>
             <Button className="w-full" onPress={onSubmit} disabled={isAuthLoading}>
               <Text
-                className="text-white"
+                className=""
                 style={{
                   fontFamily: 'Montserrat',
                 }}>

@@ -13,11 +13,14 @@ import Lottie from 'lottie-react-native';
 import animation from '@/assets/lottie/animation1.json';
 import CustomText from '@/components/ui/CustomText';
 import { ArrowRight } from 'lucide-react-native';
+import { useColorScheme } from 'nativewind';
 
 const FirstOnboarding = () => {
   const { width } = useWindowDimensions();
+  const { colorScheme } = useColorScheme();
   return (
-    <SafeAreaView className="flex-1 items-center justify-center bg-[#d9d9d9]">
+    <SafeAreaView
+      className={`flex-1 items-center justify-center bg-[${colorScheme === 'dark' ? '#000' : '#d9d9d9'}]`}>
       <CustomText text="Welcome to the Orcus App" className="text-2xl" />
       <Lottie
         source={animation}
@@ -33,7 +36,9 @@ const FirstOnboarding = () => {
 
       <View className="absolute bottom-10 px-10">
         <View className="flex flex-row items-center justify-center gap-2">
-          <View className="h-4 w-4 rounded-full bg-[#191919]" />
+          <View
+            className={`h-4 w-4 rounded-full bg-[${colorScheme === 'dark' ? '#191919' : '#d9d9d9'}]`}
+          />
           <Pressable
             className="h-2 w-2 rounded-full bg-gray-500"
             onPress={() => {
@@ -44,7 +49,7 @@ const FirstOnboarding = () => {
         <View className="flex w-full flex-row items-center justify-between">
           <CustomText text="Skip" className="text-gray-500" />
           <Pressable
-            className="flex items-center justify-center rounded-full bg-[#191919] p-2"
+            className={`flex items-center justify-center rounded-full bg-[${colorScheme === 'dark' ? '#191919' : '#d9d9d9'}] p-2`}
             onPress={() => {
               router.push('/onboarding/final');
             }}>

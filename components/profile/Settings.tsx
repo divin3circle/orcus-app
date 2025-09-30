@@ -10,7 +10,7 @@ import { useAuthStore } from '@/utils/authStore';
 
 const Settings = () => {
   const { colorScheme, toggleColorScheme } = useColorScheme();
-  const { logOut } = useAuthStore();
+  const { logOut, resetOnboarding } = useAuthStore();
   return (
     <View className="mx-2 mb-14 mt-4 rounded-xl bg-input/30 p-4">
       <View className="flex flex-row items-center justify-between">
@@ -72,6 +72,23 @@ const Settings = () => {
           <View className="">
             <CustomText text="Logout" className="text-xs text-muted-foreground" />
             <CustomText text="Exit App" className="text-sm" />
+          </View>
+        </Pressable>
+      </View>
+      <View className="my-2 flex flex-row items-center justify-between">
+        <Pressable
+          className="flex flex-row items-center gap-3"
+          onPress={() => {
+            resetOnboarding();
+          }}>
+          <Ionicons
+            name="refresh-outline"
+            size={26}
+            color={colorScheme === 'light' ? 'black' : 'white'}
+          />
+          <View className="">
+            <CustomText text="Relive onboarding experience" className="text-sm" />
+            <CustomText text="Reset Onboarding" className="text-xs text-muted-foreground" />
           </View>
         </Pressable>
       </View>

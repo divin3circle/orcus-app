@@ -46,23 +46,17 @@ export default function TransactionsScreen() {
   const { data: purchases = [], isLoading: purchasesLoading } = useTokenPurchases();
 
   const totalExpenses = useMemo(() => {
-    const transactionTotal = transactions.reduce((sum, t) => sum + t.amount + t.fee, 0);
-    const purchaseTotal = purchases.reduce((sum, p) => sum + p.amount, 0);
-    return transactionTotal + purchaseTotal;
-  }, [transactions, purchases]);
+    return transactions.reduce((sum, t) => sum + t.amount + t.fee, 0);
+  }, [transactions]);
 
   const last30DaysExpenses = useMemo(() => {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
     const recentTransactions = transactions.filter((t) => new Date(t.created_at) >= thirtyDaysAgo);
-    const recentPurchases = purchases.filter((p) => new Date(p.created_at) >= thirtyDaysAgo);
 
-    const transactionTotal = recentTransactions.reduce((sum, t) => sum + t.amount + t.fee, 0);
-    const purchaseTotal = recentPurchases.reduce((sum, p) => sum + p.amount, 0);
-
-    return transactionTotal + purchaseTotal;
-  }, [transactions, purchases]);
+    return recentTransactions.reduce((sum, t) => sum + t.amount + t.fee, 0);
+  }, [transactions]);
 
   return (
     <SafeAreaView className="flex-1">
@@ -76,7 +70,7 @@ export default function TransactionsScreen() {
               className="text-2xl font-semibold"
             />
             <CustomText
-              text={`Amount Spent in the last 30 days`}
+              text={`Amount + Fees Spent in the last 30 days`}
               className="text-xs text-muted-foreground"
             />
           </View>
