@@ -14,6 +14,9 @@ importers:
       '@dev-plugins/react-query':
         specifier: ^0.3.1
         version: 0.3.1(@tanstack/react-query@5.90.1(react@19.0.0))(expo@53.0.23(@babel/core@7.28.4)(@expo/metro-runtime@5.0.5(react-native@0.79.5(@babel/core@7.28.4)(@types/react@19.0.14)(react@19.0.0)))(react-native@0.79.5(@babel/core@7.28.4)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))
+      '@lottiefiles/dotlottie-react':
+        specifier: ^0.17.3
+        version: 0.17.3(react@19.0.0)
       '@react-navigation/bottom-tabs':
         specifier: ^7.4.7
         version: 7.4.7(@react-navigation/native@7.1.17(react-native@0.79.5(@babel/core@7.28.4)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native-safe-area-context@5.4.0(react-native@0.79.5(@babel/core@7.28.4)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native-screens@4.11.1(react-native@0.79.5(@babel/core@7.28.4)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.5(@babel/core@7.28.4)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
@@ -82,7 +85,7 @@ importers:
         version: 4.5.0
       lottie-react-native:
         specifier: ^7.2.2
-        version: 7.2.2(react-native@0.79.5(@babel/core@7.28.4)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
+        version: 7.2.2(@lottiefiles/dotlottie-react@0.17.3(react@19.0.0))(react-native@0.79.5(@babel/core@7.28.4)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
       lucide-react-native:
         specifier: ^0.511.0
         version: 0.511.0(react-native-svg@15.11.2(react-native@0.79.5(@babel/core@7.28.4)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.5(@babel/core@7.28.4)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
@@ -810,6 +813,14 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@lottiefiles/dotlottie-react@0.17.3':
+    resolution: {integrity: sha512-4PeJxXgnjg9JT5V8Qd/+0x9zC0K4iUNEXbucaiQoxTyx/rITYAvzP5JNYD0rhTMyn6edvtdBG6DPm0WOnEiatg==}
+    peerDependencies:
+      react: ^17 || ^18 || ^19
+
+  '@lottiefiles/dotlottie-web@0.53.1':
+    resolution: {integrity: sha512-UDm4ANdeO+Vq47c6idU7x4kQAX2AohF6ynRvmsGnT2GRXYpTa7p4VZYmesvhWqahEWUD7qZq6hPy2CXna8wt9g==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -4605,6 +4616,13 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
+  '@lottiefiles/dotlottie-react@0.17.3(react@19.0.0)':
+    dependencies:
+      '@lottiefiles/dotlottie-web': 0.53.1
+      react: 19.0.0
+
+  '@lottiefiles/dotlottie-web@0.53.1': {}
+
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -6332,10 +6350,12 @@ snapshots:
 
   lottie-ios@4.5.0: {}
 
-  lottie-react-native@7.2.2(react-native@0.79.5(@babel/core@7.28.4)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0):
+  lottie-react-native@7.2.2(@lottiefiles/dotlottie-react@0.17.3(react@19.0.0))(react-native@0.79.5(@babel/core@7.28.4)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0):
     dependencies:
       react: 19.0.0
       react-native: 0.79.5(@babel/core@7.28.4)(@types/react@19.0.14)(react@19.0.0)
+    optionalDependencies:
+      '@lottiefiles/dotlottie-react': 0.17.3(react@19.0.0)
 
   lru-cache@10.4.3: {}
 

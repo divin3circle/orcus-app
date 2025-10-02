@@ -1,4 +1,4 @@
-import { Pressable, SafeAreaView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Pressable, SafeAreaView, Text, StyleSheet, useWindowDimensions, View } from 'react-native';
 import React from 'react';
 import { router } from 'expo-router';
 import Lottie from 'lottie-react-native';
@@ -27,7 +27,7 @@ const FinalOnboarding = () => {
         className="text- px-4 text-sm leading-relaxed"
       />
 
-      <View className="absolute bottom-10 px-10">
+      <View className="w-full px-10">
         <View className="mb-4 flex flex-row items-center justify-center gap-2">
           <Pressable
             className="h-2 w-2 rounded-full bg-gray-500"
@@ -40,13 +40,24 @@ const FinalOnboarding = () => {
           />
         </View>
         <View className="flex w-full flex-row items-center justify-between">
-          <CustomText text="Skip" className="text-gray-500" />
+          <Pressable
+            onPress={() => {
+              router.push('/sign-in');
+            }}>
+            <CustomText text="Skip" className="text-gray-500" />
+          </Pressable>
           <Pressable
             className="flex flex-row items-center justify-center gap-1 rounded-full bg-[#191919] p-2"
             onPress={() => {
               completeOnboarding();
             }}>
-            <CustomText text="Create Account" className="text-[#d9d9d9]" />
+            <Text
+              className="text-[#d9d9d9]"
+              style={{
+                fontFamily: 'Montserrat',
+              }}>
+              Create Account
+            </Text>
             <ArrowRight className="size-6" color="#d9d9d9" />
           </Pressable>
         </View>

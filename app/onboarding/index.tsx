@@ -34,7 +34,7 @@ const FirstOnboarding = () => {
         className="text- px-4 text-sm leading-relaxed"
       />
 
-      <View className="absolute bottom-10 px-10">
+      <View className="px-10">
         <View className="flex flex-row items-center justify-center gap-2">
           <View
             className={`h-4 w-4 rounded-full bg-[${colorScheme === 'dark' ? '#191919' : '#d9d9d9'}]`}
