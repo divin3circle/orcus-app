@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import CustomText from '@/components/ui/CustomText';
 import NotificationsCard from '@/components/home/NotificationsCard';
@@ -49,13 +49,13 @@ const Notifications = () => {
   }
 
   return (
-    <View className="p-4">
+    <ScrollView className="p-4">
       <CustomText text="Notifications" className="text-lg font-semibold" />
       <CustomText
         text="Track your transactions and notifications"
         className="text-sm text-muted-foreground"
       />
-      <View className="mt-4 flex flex-col gap-2">
+      <View className="mt-4 flex flex-col-reverse gap-2">
         {data.slice(0, limit).map((notification) => (
           <NotificationsCard key={notification.timestamp} notification={notification} />
         ))}
@@ -79,7 +79,7 @@ const Notifications = () => {
           <CustomText text="Hide" className="text-muted-foreground" />
         </Pressable>
       )}
-    </View>
+    </ScrollView>
   );
 };
 

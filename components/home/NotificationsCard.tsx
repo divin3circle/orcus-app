@@ -15,7 +15,7 @@ function getNotificationIcon(notificationType: string): NotificationOpts {
   switch (notificationType) {
     case 'transaction':
       return { icon: 'arrow-up-outline', color: 'red' };
-    case 'buy':
+    case 'buy | airdrop':
       return { icon: 'arrow-down-outline', color: 'green' };
     case 'join':
       return { icon: 'add-circle-outline', color: 'blue' };
@@ -35,7 +35,14 @@ const NotificationsCard = ({ notification }: { notification: Notification }) => 
       <View className="flex flex-row items-center gap-2">
         <Ionicons name={icon} size={24} color={color} />
         <View className="">
-          <CustomText text={notification.message_content} />
+          <CustomText
+            text={
+              notification.message_content.length > 35
+                ? notification.message_content.slice(0, 35) + '...'
+                : notification.message_content
+            }
+            className="text-sm"
+          />
           <CustomText
             text={new Date(notification.timestamp * 1000).toLocaleString('en-US', {
               month: 'short',

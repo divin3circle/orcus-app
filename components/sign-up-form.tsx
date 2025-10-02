@@ -218,7 +218,7 @@ export function SignUpForm() {
             </View>
             <Button className="w-full" onPress={onSubmit} disabled={isAuthLoading}>
               <Text
-                className=""
+                className="text-primary-foreground"
                 style={{
                   fontFamily: 'Montserrat',
                 }}>
