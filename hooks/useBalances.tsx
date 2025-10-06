@@ -67,5 +67,5 @@ export const formatBalance = (balance: number | undefined) => {
   if (!balance) {
     return '0.00';
   }
-  return (balance / 10 ** 2).toFixed(2).toLocaleString();
+  return (balance / 10 ** 2).toLocaleString();
 };
