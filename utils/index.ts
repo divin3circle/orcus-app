@@ -1,5 +1,5 @@
-const isDevMode = true;
+const isDevMode = false;
 
 export function getBaseUrl() {
-  return isDevMode ? 'http://localhost:8080/' : 'https://api.orcus.app/';
+  return isDevMode ? 'http://localhost:8080/' : 'https://backend.orcus-finance.space/';
 }
