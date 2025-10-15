@@ -26,11 +26,11 @@
       "usesNonExemptEncryption": false
     },
     "android": {
-      "edgeToEdgeEnabled": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.sylus.abel.orcusapp"
     },
     "web": {
       "bundler": "metro",

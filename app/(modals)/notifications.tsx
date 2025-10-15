@@ -50,7 +50,7 @@ const Notifications = () => {
 
   return (
     <ScrollView className="p-4">
-      <CustomText text="Notifications" className="text-lg font-semibold" />
+      <CustomText text="Notifications" className="mt-4 text-lg font-semibold" />
       <CustomText
         text="Track your transactions and notifications"
         className="text-sm text-muted-foreground"

@@ -40,7 +40,7 @@ const Send = () => {
 
   return (
     <View className="">
-      <View className="p-4">
+      <View className="mt-4 p-4">
         <CustomText text="Send KSH" className="text-lg font-semibold" />
         <Text
           className="text-sm text-foreground/50"

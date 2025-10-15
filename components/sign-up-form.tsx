@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import * as React from 'react';
@@ -81,7 +80,7 @@ export function SignUpForm() {
     }
 
     try {
-      await register(formData);
+      register(formData);
       setFormData({
         username: '',
         mobile_number: '',
@@ -109,134 +108,131 @@ export function SignUpForm() {
 
   return (
     <View className="w-full gap-6">
-      <Card className="border-border/0 shadow-none sm:border-border sm:shadow-sm sm:shadow-black/5">
-        <CardHeader>
-          <CardTitle asChild>
+      <View className="gap-4">
+        <View>
+          <Text
+            className="text-lg font-semibold"
+            style={{
+              fontFamily: 'Montserrat',
+            }}>
+            Create your account
+          </Text>
+          <CustomText
+            text="Welcome! Please fill in the details to get started"
+            className="mt-2 text-muted-foreground"
+          />
+        </View>
+        <View className="gap-6">
+          <View className="gap-1.5">
+            <Label htmlFor="username">
+              <CustomText text="Username" className="" />
+            </Label>
+            <Input
+              id="username"
+              placeholder="username"
+              keyboardType="default"
+              autoCapitalize="none"
+              value={formData.username}
+              onChangeText={(value) => handleInputChange('username', value)}
+              onSubmitEditing={onUsernameSubmitEditing}
+              returnKeyType="next"
+              submitBehavior="submit"
+              className={`border-2 text-sm shadow-none ${errors.username ? 'border-red-500' : 'border-border'}`}
+              style={{
+                fontFamily: 'Montserrat',
+              }}
+            />
+            {errors.username && (
+              <CustomText text={errors.username} className="text-xs text-red-500" />
+            )}
+          </View>
+          <View className="gap-1.5">
+            <Label htmlFor="mobile_number">
+              <CustomText text="Mobile Number" className="" />
+            </Label>
+            <Input
+              id="mobile_number"
+              placeholder="+254701838695"
+              value={formData.mobile_number}
+              onChangeText={(value) => handleInputChange('mobile_number', value)}
+              onSubmitEditing={onMobileNumberSubmitEditing}
+              returnKeyType="next"
+              keyboardType="default"
+              submitBehavior="submit"
+              maxLength={13}
+              className={`border-2 text-sm shadow-none ${errors.mobile_number ? 'border-red-500' : 'border-border'}`}
+              style={{
+                fontFamily: 'Montserrat',
+              }}
+            />
+            {errors.mobile_number && (
+              <CustomText text={errors.mobile_number} className="text-xs text-red-500" />
+            )}
+          </View>
+          <View className="gap-1.5">
+            <Label htmlFor="profile_image_url">
+              <CustomText text="Profile Image URL" className="" />
+            </Label>
+            <Input
+              id="profile_image_url"
+              placeholder="profile image url"
+              value={formData.profile_image_url}
+              onChangeText={(value) => handleInputChange('profile_image_url', value)}
+              onSubmitEditing={onProfileImageUrlSubmitEditing}
+              returnKeyType="next"
+              keyboardType="default"
+              submitBehavior="submit"
+              className={`border-2 text-sm shadow-none ${errors.profile_image_url ? 'border-red-500' : 'border-border'}`}
+              style={{
+                fontFamily: 'Montserrat',
+              }}
+            />
+            {errors.profile_image_url && (
+              <CustomText text={errors.profile_image_url} className="text-xs text-red-500" />
+            )}
+          </View>
+
+          <View className="gap-1.5">
+            <Label htmlFor="password">
+              <CustomText text="Password" className="" />
+            </Label>
+            <Input
+              ref={passwordInputRef}
+              id="password"
+              secureTextEntry
+              value={formData.password}
+              onChangeText={(value) => handleInputChange('password', value)}
+              returnKeyType="send"
+              onSubmitEditing={onSubmit}
+              className={`border-2 text-sm shadow-none ${errors.password ? 'border-red-500' : 'border-border'}`}
+              style={{
+                fontFamily: 'Montserrat',
+              }}
+            />
+            {errors.password && (
+              <CustomText text={errors.password} className="text-xs text-red-500" />
+            )}
+          </View>
+          <Button className="w-full" onPress={onSubmit} disabled={isAuthLoading}>
             <Text
-              className="text-xl font-semibold"
+              className="text-primary-foreground"
               style={{
                 fontFamily: 'Montserrat',
               }}>
-              Create your account
+              {isAuthLoading ? 'Creating Account...' : 'Continue'}
             </Text>
-          </CardTitle>
-          <CardDescription asChild>
-            <CustomText text="Welcome! Please fill in the details to get started" className="" />
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="gap-6">
-          <View className="gap-6">
-            <View className="gap-1.5">
-              <Label htmlFor="username">
-                <CustomText text="Username" className="" />
-              </Label>
-              <Input
-                id="username"
-                placeholder="username"
-                keyboardType="default"
-                autoCapitalize="none"
-                value={formData.username}
-                onChangeText={(value) => handleInputChange('username', value)}
-                onSubmitEditing={onUsernameSubmitEditing}
-                returnKeyType="next"
-                submitBehavior="submit"
-                className={`border-2 text-sm shadow-none ${errors.username ? 'border-red-500' : 'border-border'}`}
-                style={{
-                  fontFamily: 'Montserrat',
-                }}
-              />
-              {errors.username && (
-                <CustomText text={errors.username} className="text-xs text-red-500" />
-              )}
-            </View>
-            <View className="gap-1.5">
-              <Label htmlFor="mobile_number">
-                <CustomText text="Mobile Number" className="" />
-              </Label>
-              <Input
-                id="mobile_number"
-                placeholder="+254701838695"
-                value={formData.mobile_number}
-                onChangeText={(value) => handleInputChange('mobile_number', value)}
-                onSubmitEditing={onMobileNumberSubmitEditing}
-                returnKeyType="next"
-                keyboardType="default"
-                submitBehavior="submit"
-                maxLength={13}
-                className={`border-2 text-sm shadow-none ${errors.mobile_number ? 'border-red-500' : 'border-border'}`}
-                style={{
-                  fontFamily: 'Montserrat',
-                }}
-              />
-              {errors.mobile_number && (
-                <CustomText text={errors.mobile_number} className="text-xs text-red-500" />
-              )}
-            </View>
-            <View className="gap-1.5">
-              <Label htmlFor="profile_image_url">
-                <CustomText text="Profile Image URL" className="" />
-              </Label>
-              <Input
-                id="profile_image_url"
-                placeholder="profile image url"
-                value={formData.profile_image_url}
-                onChangeText={(value) => handleInputChange('profile_image_url', value)}
-                onSubmitEditing={onProfileImageUrlSubmitEditing}
-                returnKeyType="next"
-                keyboardType="default"
-                submitBehavior="submit"
-                className={`border-2 text-sm shadow-none ${errors.profile_image_url ? 'border-red-500' : 'border-border'}`}
-                style={{
-                  fontFamily: 'Montserrat',
-                }}
-              />
-              {errors.profile_image_url && (
-                <CustomText text={errors.profile_image_url} className="text-xs text-red-500" />
-              )}
-            </View>
-
-            <View className="gap-1.5">
-              <Label htmlFor="password">
-                <CustomText text="Password" className="" />
-              </Label>
-              <Input
-                ref={passwordInputRef}
-                id="password"
-                secureTextEntry
-                value={formData.password}
-                onChangeText={(value) => handleInputChange('password', value)}
-                returnKeyType="send"
-                onSubmitEditing={onSubmit}
-                className={`border-2 text-sm shadow-none ${errors.password ? 'border-red-500' : 'border-border'}`}
-                style={{
-                  fontFamily: 'Montserrat',
-                }}
-              />
-              {errors.password && (
-                <CustomText text={errors.password} className="text-xs text-red-500" />
-              )}
-            </View>
-            <Button className="w-full" onPress={onSubmit} disabled={isAuthLoading}>
-              <Text
-                className="text-primary-foreground"
-                style={{
-                  fontFamily: 'Montserrat',
-                }}>
-                {isAuthLoading ? 'Creating Account...' : 'Continue'}
-              </Text>
-            </Button>
-          </View>
-          <View className="flex-row items-center justify-center">
-            <CustomText text="Already have an account? " className="text-center text-sm" />
-            <Pressable
-              onPress={() => {
-                router.dismissTo('/sign-in');
-              }}>
-              <CustomText text="Sign in" className="text-sm underline underline-offset-4" />
-            </Pressable>
-          </View>
-        </CardContent>
-      </Card>
+          </Button>
+        </View>
+        <View className="flex-row items-center justify-center">
+          <CustomText text="Already have an account? " className="text-center text-sm" />
+          <Pressable
+            onPress={() => {
+              router.dismissTo('/sign-in');
+            }}>
+            <CustomText text="Sign in" className="text-sm underline underline-offset-4" />
+          </Pressable>
+        </View>
+      </View>
     </View>
   );
 }

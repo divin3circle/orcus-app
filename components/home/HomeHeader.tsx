@@ -1,4 +1,4 @@
-import { StyleSheet, Image, View, Pressable, Text } from 'react-native';
+import { StyleSheet, Image, View, Pressable, Text, Platform } from 'react-native';
 import React from 'react';
 import CustomText from '../ui/CustomText';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -19,7 +19,8 @@ const HomeHeader = () => {
             <Text
               className="text-background"
               style={{
-                fontFamily: 'Montserrat',
+                fontFamily:
+                  Platform.OS === 'android' ? 'FunnelDisplay-SemiBold' : 'FunnelDisplay-Regular',
               }}>
               {username.charAt(0)}
             </Text>

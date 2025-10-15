@@ -222,7 +222,7 @@ const Pay = () => {
 
   return (
     <View className="">
-      <View className="p-4">
+      <View className="mt-4 p-4">
         <CustomText text="Pay Merchant" className="text-lg font-semibold" />
       </View>
       <View className="">

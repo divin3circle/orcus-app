@@ -36,7 +36,7 @@ const Scan = () => {
   }
 
   return (
-    <View className="p-4">
+    <View className="mt-4 p-4">
       <CustomText text="Scan" className="text-center text-lg font-semibold" />
       <CustomText
         text="Scan Merchant QR to Pay"

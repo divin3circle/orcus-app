@@ -1,4 +1,4 @@
-import { StyleSheet, View, Pressable } from 'react-native';
+import { StyleSheet, View, Pressable, Platform } from 'react-native';
 import { Button } from '@/components/ui/button';
 import { useColorScheme } from 'nativewind';
 import React from 'react';
@@ -9,10 +9,15 @@ import { MoonStarIcon, SunIcon } from 'lucide-react-native';
 import { useAuthStore } from '@/utils/authStore';
 
 const Settings = () => {
-  const { colorScheme, toggleColorScheme } = useColorScheme();
+  const { colorScheme } = useColorScheme();
   const { logOut, resetOnboarding } = useAuthStore();
+  const bottomPadding = Platform.OS === 'ios' ? 66 : 70;
   return (
-    <View className="mx-2 mb-14 mt-4 rounded-xl bg-input/30 p-4">
+    <View
+      className="mx-2 mt-4 rounded-xl bg-input/30 p-4"
+      style={{
+        paddingBottom: bottomPadding,
+      }}>
       <View className="flex flex-row items-center justify-between">
         <CustomText text="Settings" className="text-md font-semibold" />
       </View>

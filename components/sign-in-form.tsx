@@ -84,7 +84,7 @@ export function SignInForm() {
         <CardHeader>
           <CardTitle asChild>
             <Text
-              className="text-xl font-semibold"
+              className="text-lg font-semibold"
               style={{
                 fontFamily: 'Montserrat',
               }}>
@@ -136,7 +136,13 @@ export function SignInForm() {
                       'Please contact support to reset your password'
                     );
                   }}>
-                  <CustomText text="Forgot your password?" className="font-normal leading-4" />
+                  <Text
+                    className="text-xs font-medium leading-4"
+                    style={{
+                      fontFamily: 'FunnelDisplay-Regular',
+                    }}>
+                    Forgot your password?
+                  </Text>
                 </Button>
               </View>
               <Input

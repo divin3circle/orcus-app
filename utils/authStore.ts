@@ -43,7 +43,7 @@ export const useAuthStore = create(
       isAuthLoading: false,
       createdAt: '',
       updatedAt: '',
-      isOnboardingComplete: true,
+      isOnboardingComplete: false,
       paymentID: '',
       setPaymentID: (paymentID: string) => {
         set((state) => {

@@ -34,7 +34,9 @@ export default function RootLayout() {
   useReactQueryDevTools(queryClient);
 
   const [loaded] = useFonts({
-    Montserrat: require('../assets/fonts/Montserrat-VariableFont_wght.ttf'),
+    'FunnelDisplay-Regular': require('../assets/fonts/FunnelDisplay-VariableFont_wght.ttf'),
+    'FunnelDisplay-SemiBold': require('../assets/fonts/FunnelDisplay-SemiBold.ttf'),
+    'Montserrat-Regular': require('../assets/fonts/Montserrat-VariableFont_wght.ttf'),
   });
 
   useEffect(() => {
