@@ -128,7 +128,7 @@ export default function OfflineScreen() {
           </Text>
           <View className="flex flex-row items-center justify-between">
             <TextInput
-              className="h-full w-[60%] bg-transparent text-3xl font-semibold placeholder:text-muted-foreground focus:outline-none"
+              className="h-full w-[60%] bg-transparent text-3xl font-semibold text-foreground placeholder:text-muted-foreground focus:outline-none"
               placeholder="0.00"
               keyboardType="numeric"
               value={usdcAmount}
@@ -169,7 +169,7 @@ export default function OfflineScreen() {
         <View className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 transform">
           <View className="flex items-center justify-center rounded-lg bg-background p-[3px]">
             <View className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg bg-foreground/5 transition-colors duration-200">
-              <ChevronsDown className="h-6 w-6 text-foreground" />
+              <ChevronsDown className="h-6 w-6" color="orange" />
             </View>
           </View>
         </View>
@@ -183,7 +183,7 @@ export default function OfflineScreen() {
           </Text>
           <View className="flex flex-row items-center justify-between">
             <TextInput
-              className="h-full w-[60%] bg-transparent text-3xl font-semibold placeholder:text-muted-foreground focus:outline-none"
+              className="h-full w-[60%] bg-transparent text-3xl font-semibold text-foreground placeholder:text-foreground focus:outline-none"
               placeholder="0.00"
               keyboardType="numeric"
               value={kesAmount}
