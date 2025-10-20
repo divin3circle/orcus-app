@@ -3,6 +3,7 @@ import CustomKeyboards from '@/components/ui/custom-keyboard';
 import CustomText from '@/components/ui/CustomText';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
+import { useKESTBalance } from '@/hooks/useBalances';
 import { THEME } from '@/lib/theme';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link, Stack } from 'expo-router';
@@ -31,6 +32,7 @@ const SCREEN_OPTIONS = {
 
 export default function OfflineScreen() {
   const { colorScheme } = useColorScheme();
+  const { data: kshBalance, isLoading, error } = useKESTBalance();
   const EXCHANGE_RATE_KES_PER_USDC = 134;
   const [usdcAmount, setUsdcAmount] = React.useState<string>('');
   const [kesAmount, setKesAmount] = React.useState<string>('');
@@ -210,7 +212,7 @@ export default function OfflineScreen() {
               style={{
                 fontFamily: 'FunnelDisplay-Regular',
               }}>
-              {kesAmount ? `${kesAmount} KES` : '0.00 KES'}
+              {kshBalance ? `${(kshBalance / 100).toFixed(2)} KES` : '0.00 KES'}
             </Text>
           </View>
         </View>
