@@ -8,6 +8,7 @@ import { MoonStarIcon, StarIcon, SunIcon } from 'lucide-react-native';
 import { useColorScheme } from 'nativewind';
 import * as React from 'react';
 import { Image, type ImageStyle, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const LOGO = {
   light: require('@/assets/images/react-native-reusables-light.png'),
@@ -16,14 +17,14 @@ const LOGO = {
 
 const SCREEN_OPTIONS = {
   light: {
-    title: 'AI Agent',
+    title: 'Swap',
     headerTransparent: true,
     headerShadowVisible: true,
     headerStyle: { backgroundColor: THEME.light.background },
     headerRight: () => <ThemeToggle />,
   },
   dark: {
-    title: 'AI Agent',
+    title: 'Swap',
     headerTransparent: true,
     headerShadowVisible: true,
     headerStyle: { backgroundColor: THEME.dark.background },
@@ -40,12 +41,12 @@ export default function OfflineScreen() {
   const { colorScheme } = useColorScheme();
 
   return (
-    <>
+    <SafeAreaView className="flex-1">
       <Stack.Screen options={SCREEN_OPTIONS[colorScheme ?? 'light']} />
-      <View className="flex-1 items-center justify-center gap-8 p-4">
-        <CustomText text="AI Agents" />
+      <View className="items-center justify-center">
+        <CustomText text="Swap USDC for KES" className="text-base font-bold" />
       </View>
-    </>
+    </SafeAreaView>
   );
 }
 
