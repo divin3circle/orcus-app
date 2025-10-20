@@ -4,6 +4,7 @@ import { authAxios } from '@/services/authService';
 interface BuyRequest {
   user_id: string;
   amount: number;
+  asset?: 'KES' | 'HBAR';
 }
 
 export interface BuyResponse {

@@ -1,5 +1,5 @@
 import { Alert, View, Text, Image, TextInput, Pressable } from 'react-native';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import CustomText from '@/components/ui/CustomText';
 import CustomKeyboards from '@/components/ui/custom-keyboard';
 import { useBuy, BuyResponse } from '@/hooks/useBuy';
@@ -14,6 +14,7 @@ const Buy = () => {
   const { id: userId } = useAuthStore();
   const { data: kshBalance } = useKESTBalance();
   const [amount, setAmount] = useState('100');
+  const [asset, setAsset] = useState<'KES' | 'HBAR'>('KES');
   const [buySuccess, setBuySuccess] = useState(false);
   const [buyData, setBuyData] = useState<BuyResponse | null>(null);
 
@@ -54,6 +55,7 @@ const Buy = () => {
       const result = await buy({
         user_id: userId,
         amount: Number(amount),
+        asset,
       });
 
       setBuyData(result);
@@ -122,6 +124,15 @@ const Buy = () => {
     );
   }
 
+  const receivePrefix = asset === 'HBAR' ? 'HBAR' : 'KSH';
+  const receiveAmount = useMemo(() => {
+    const numeric = Number(amount) || 0;
+    if (asset === 'HBAR') {
+      return (numeric / 23).toFixed(6); // 1 HBAR = 23 KES
+    }
+    return numeric.toFixed(2);
+  }, [amount, asset]);
+
   return (
     <View>
       <View className="mt-4 px-4 py-2">
@@ -134,7 +145,7 @@ const Buy = () => {
           Buy KSH with M-Pesa
         </Text>
       </View>
-      <View className="mt-2 flex flex-row items-center gap-2 p-4">
+      <View className="flex flex-row items-center gap-2 p-4">
         <Image
           source={require('@/assets/images/ksh.png')}
           className="h-14 w-14 rounded-full border border-foreground/50"
@@ -150,7 +161,7 @@ const Buy = () => {
           <CustomText text={`KES ${formatBalance(kshBalance)}`} className="text-lg font-semibold" />
         </View>
       </View>
-      <View className="mt-1 p-4">
+      <View className="p-4">
         <Text
           className="text-sm font-bold text-foreground/50"
           style={{
@@ -158,7 +169,25 @@ const Buy = () => {
           }}>
           Enter Amount
         </Text>
-        <View className="mt-4 flex flex-row items-center gap-1">
+        <View className="mt-3 flex flex-row items-center gap-2">
+          <Pressable
+            className={`rounded-full border px-3 py-1 ${asset === 'KES' ? 'bg-foreground' : 'bg-transparent'}`}
+            onPress={() => setAsset('KES')}>
+            <Text
+              className={`${asset === 'KES' ? 'text-background' : 'text-foreground'} text-xs font-semibold`}>
+              KES
+            </Text>
+          </Pressable>
+          <Pressable
+            className={`rounded-full border px-3 py-1 ${asset === 'HBAR' ? 'bg-foreground' : 'bg-transparent'}`}
+            onPress={() => setAsset('HBAR')}>
+            <Text
+              className={`${asset === 'HBAR' ? 'text-background' : 'text-foreground'} text-xs font-semibold`}>
+              HBAR
+            </Text>
+          </Pressable>
+        </View>
+        <View className="mt-2 flex flex-row items-center gap-1">
           <Text
             className="text-4xl font-semibold text-blue-500"
             style={{
@@ -178,7 +207,7 @@ const Buy = () => {
           />
         </View>
       </View>
-      <View className="mt-1 p-4">
+      <View className="p-4">
         <Text
           className="text-sm font-bold text-foreground/50"
           style={{
@@ -186,17 +215,15 @@ const Buy = () => {
           }}>
           You will receive
         </Text>
-        <View className="mt-4 flex flex-row items-center gap-1">
+        <View className="mt-2 flex flex-row items-center gap-1">
           <Text
             className="text-4xl font-semibold text-blue-500"
             style={{
               fontFamily: 'Montserrat',
             }}>
-            KSH
+            {receivePrefix}
           </Text>
-          <Text className="text-4xl font-semibold text-foreground">
-            {Number(amount).toFixed(2)}
-          </Text>
+          <Text className="text-4xl font-semibold text-foreground">{receiveAmount}</Text>
         </View>
       </View>
       <CustomKeyboards
