@@ -20,6 +20,16 @@ const Buy = () => {
 
   const { buy, isLoading: isBuyLoading } = useBuy();
   const { refetch: refetchBalances } = useBalances();
+
+  const receivePrefix = asset === 'HBAR' ? 'HBAR' : 'KSH';
+  const receiveAmount = useMemo(() => {
+    const numeric = Number(amount) || 0;
+    if (asset === 'HBAR') {
+      return (numeric / 23).toFixed(6); // 1 HBAR = 23 KES
+    }
+    return numeric.toFixed(2);
+  }, [amount, asset]);
+
   const handleKeyPress = (key: string) => {
     if (key === 'Ksh') return; // Handle currency toggle if needed
 
@@ -123,15 +133,6 @@ const Buy = () => {
       </View>
     );
   }
-
-  const receivePrefix = asset === 'HBAR' ? 'HBAR' : 'KSH';
-  const receiveAmount = useMemo(() => {
-    const numeric = Number(amount) || 0;
-    if (asset === 'HBAR') {
-      return (numeric / 23).toFixed(6); // 1 HBAR = 23 KES
-    }
-    return numeric.toFixed(2);
-  }, [amount, asset]);
 
   return (
     <View>
